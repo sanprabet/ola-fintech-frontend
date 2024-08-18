@@ -4,16 +4,18 @@ import { LandingLayout } from '../../layouts/landing';
 
 import Home from './Home' 
 
-const About = () => <h2>About Page</h2>;
-const Contact = () => <h2>Contact Page</h2>;
+const TasasTarifas = () => <h2>Tasas y Tarifas</h2>;
+const Nosotros = () => <h2>Nosotros</h2>;
+const Requisitos = () => <h2>Nosotros</h2>;
 
 export const Landings = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingLayout  />}>
         <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} />
+        <Route path="tasasytarifas" element={<TasasTarifas />} />
+        <Route path="requisitos" element={<Nosotros />} />
+        <Route path="nosotros" element={<Requisitos />} />
       </Route>
     </Routes>
   );

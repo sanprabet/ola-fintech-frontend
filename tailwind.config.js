@@ -8,7 +8,7 @@ module.exports = {
         principal: "#2D1C4B",
         secondario: "#E0DBEF",
         acentos: "#8075BA",
-        fondo: "#F9F5FF",
+        fondo: "#dad8ed",
         texto: "#07090E"
       },
       spacing: {
