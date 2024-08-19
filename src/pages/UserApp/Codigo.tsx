@@ -25,7 +25,7 @@ function Codigo() {
               <div className="flex justify-center">
                 <input
                   type="text"
-                  maxLength="6"
+                  maxLength={6}
                   className="w-48 h-12 border-2 border-principal rounded-md text-center text-xl font-bold tracking-widest text-principal focus:outline-none focus:border-principal focus:ring-principal"
                   placeholder="______"
                 />
