@@ -17,7 +17,7 @@ const AppLayout: React.FC<LandingLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <div className="min-h-screen bg-fondo pt-1">
+      <div className="min-h-screen bg-fondo pt-4">
         <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
         <div className="px-2 md:px-4 xl:ml-72">
           <div className='xl:hidden'>

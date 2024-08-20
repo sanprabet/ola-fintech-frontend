@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import { LandingLayout } from '../../layouts/landing';
 
 import Home from './Home' 
+import TasasTarifas from './TasasTarifas'
+import Nosotros from './Nosotros'
 
-const TasasTarifas = () => <h2>Tasas y Tarifas</h2>;
-const Nosotros = () => <h2>Nosotros</h2>;
 const Requisitos = () => <h2>Nosotros</h2>;
 
 export const Landings = () => {
@@ -15,7 +15,7 @@ export const Landings = () => {
         <Route index element={<Home />} />
         <Route path="tasasytarifas" element={<TasasTarifas />} />
         <Route path="requisitos" element={<Nosotros />} />
-        <Route path="nosotros" element={<Requisitos />} />
+        <Route path="nosotros" element={<Nosotros />} />
       </Route>
     </Routes>
   );

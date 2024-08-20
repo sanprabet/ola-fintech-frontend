@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import ProfilePic from "../../assets/profile-pic.svg";
+import { Link, useLocation } from 'react-router-dom';
+import ProfilePic from "../../assets/logo.png";
 
 type SidebarProps = {
   isOpen: boolean;
@@ -9,6 +8,14 @@ type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+  const location = useLocation();
+
+  const getLinkClasses = (path: string) => {
+    return `flex items-center gap-4 px-4 py-3 text-lg font-medium text-principal rounded-lg hover:bg-gray-100 ${
+      location.pathname === path ? 'bg-secondario' : ''
+    }`;
+  };
+
   return (
     <aside
       className={`bg-white fixed inset-0 z-50 w-72 ${
@@ -44,9 +51,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           <img
             src={ProfilePic}
             alt="Profile"
-            className="w-10 h-10 rounded-full border border-gray-300"
+            className="w-10 h-10"
           />
-          <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-400"></span>
+
         </div>
         <div>
           <p className="text-sm text-gray-700">Bienvenido Yeison.</p>
@@ -64,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         <ul className="flex flex-col gap-4">
           {/* Inicio */}
           <li>
-            <Link to="/" className="flex items-center gap-4 px-4 py-3 text-lg font-medium text-principal rounded-lg hover:bg-gray-100">
+            <Link to="/app" className={getLinkClasses('/app')}>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-inherit" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path>
                 <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path>
@@ -75,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
           {/* Mis Creditos */}
           <li>
-            <Link to="/mis-creditos" className="flex items-center gap-4 px-4 py-3 text-lg font-medium text-principal rounded-lg hover:bg-gray-100">
+            <Link to="/app/creditos" className={getLinkClasses('/app/creditos')}>
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 className="w-6 h-6 text-inherit" 
@@ -100,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
           {/* Mi Salud Financiera */}
           <li>
-            <Link to="/mi-salud-financiera" className="flex items-center gap-4 px-4 py-3 text-lg font-medium text-principal rounded-lg hover:bg-gray-100">
+            <Link to="/app/salud" className={getLinkClasses('/app/salud')}>
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 className="w-6 h-6 text-inherit" 
@@ -122,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
           {/* Mi Cuenta */}
           <li>
-            <Link to="/mi-cuenta" className="flex items-center gap-4 px-4 py-3 text-lg font-medium text-principal rounded-lg hover:bg-gray-100">
+            <Link to="/app/cuenta" className={getLinkClasses('/app/cuenta')}>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-inherit" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-4.41 0-8 2.015-8 4.5V19c0 .552.448 1 1 1h14c.552 0 1-.448 1-1v-.5c0-2.485-3.59-4.5-8-4.5z"></path>
               </svg>
@@ -139,7 +146,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         </Link>
       </div>
       <div className="pb-4">
-        <Link to="/signout" className="block text-center text-lg font-medium text-principal hover:underline w-fit mx-auto">
+        <Link to="/" className="block text-center text-lg font-medium text-principal hover:underline w-fit mx-auto">
           Cerrar sesión
         </Link>
       </div>

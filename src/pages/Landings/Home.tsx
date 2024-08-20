@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface AccordionItemProps {
   header: string;
@@ -248,7 +249,7 @@ const Subscription: React.FC = () => {
   return (
     <div className="bg-gradient-to-b bg-fondo py-20">
       <div className="container mx-auto px-6">
-        <div className="text-center lg:w-8/12 xl:w-7/12 mx-auto mb-12">
+        <div className="text-center w-full mx-auto mb-12">
           <h2 className="text-3xl font-bold leading-tight text-texto sm:text-4xl lg:text-5xl">
             How does it work?
           </h2>
@@ -257,11 +258,11 @@ const Subscription: React.FC = () => {
           </p>
         </div>
 
-        {/* Single Card Layout */}
-        <div className="w-full lg:w-8/12 mx-auto">
-          <div className="bg-white shadow-xl rounded-lg overflow-hidden p-6 lg:flex lg:items-start">
+        {/* Single Card Layout - Full Width */}
+        <div className="w-full mx-auto">
+          <div className="bg-white shadow-xl rounded-lg overflow-hidden p-6 lg:flex lg:items-start lg:justify-between">
             {/* Left Side (Inputs) */}
-            <div className="lg:w-1/2 lg:pr-6">
+            <div className="w-full lg:w-1/2 lg:pr-6">
               <h3 className="text-2xl font-bold text-center text-texto mb-6">
                 Calcula tu crédito
               </h3>
@@ -303,7 +304,7 @@ const Subscription: React.FC = () => {
             </div>
 
             {/* Right Side (Outputs) */}
-            <div className="lg:w-1/2 lg:pl-6 flex flex-col justify-center h-full">
+            <div className="w-full lg:w-1/2 lg:pl-6 flex flex-col justify-center h-full">
               <div className="mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-texto">Monto solicitado</span>
@@ -343,52 +344,68 @@ const Subscription: React.FC = () => {
   );
 };
 
+
 const Description: React.FC = () => {
   return (
     <section className="bg-white">
       <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        
+        {/* First Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
           <div className="max-w-lg">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">About Us</h2>
-            <p className="mt-4 text-gray-600 text-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis eros at lacus feugiat hendrerit sed ut tortor. Suspendisse et magna quis elit efficitur consequat. Mauris eleifend velit a pretium iaculis. Donec sagittis velit et magna euismod, vel aliquet nulla malesuada. Nunc pharetra massa lectus, a fermentum arcu volutpat vel.
-            </p>
-            <div className="mt-8">
-              <a href="#" className="text-principal font-medium">
-                Learn more about us <span className="ml-2">&#8594;</span>
-              </a>
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">El crédito digital que te ahorra tiempo en filas</h2>
+            <ul className="mt-4 text-gray-600 text-lg list-disc list-inside">
+              <li>Lo pides desde nuestra web en tu celular o computador y lo recibes en menos de 1 día hábil a tu cuenta.</li>
+              <li>Sin filas, sin papeles, sin codeudor.</li>
+              <li>Tasa de interés fija de 1,88% M.V. o 25% E.A.</li>
+              <li>Plazo mínimo 60 días y plazo máximo 90 días aplicando a la extensión que puedes usar si lo requieres.</li>
+            </ul>
+            <div className="mt-8 flex space-x-4">
+              <Link className="py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">
+                Aplicar ahora
+              </Link>
+              <Link className="py-2 px-6 bg-gray-500 hover:bg-gray-400 text-sm text-white font-bold rounded-xl transition duration-200" to="/tasas-y-tarifas">
+                Tasas y tarifas
+              </Link>
             </div>
           </div>
           <div className="mt-12 md:mt-0">
             <img
               src="https://images.unsplash.com/photo-1531973576160-7125cd663d86"
-              alt="About Us"
+              alt="El crédito digital"
               className="object-cover rounded-lg shadow-md"
             />
           </div>
         </div>
 
-        {/* Reversed row */}
+        {/* Second Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 mt-16">
           <div className="order-2 md:order-1 mt-12 md:mt-0">
             <img
               src="https://images.unsplash.com/photo-1531973576160-7125cd663d86"
-              alt="About Us"
+              alt="Requisitos básicos"
               className="object-cover rounded-lg shadow-md"
             />
           </div>
           <div className="max-w-lg order-1 md:order-2">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">About Us</h2>
-            <p className="mt-4 text-gray-600 text-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis eros at lacus feugiat hendrerit sed ut tortor. Suspendisse et magna quis elit efficitur consequat. Mauris eleifend velit a pretium iaculis. Donec sagittis velit et magna euismod, vel aliquet nulla malesuada. Nunc pharetra massa lectus, a fermentum arcu volutpat vel.
-            </p>
-            <div className="mt-8">
-              <a href="#" className="text-purple font-medium">
-                Learn more about us <span className="ml-2">&#8594;</span>
-              </a>
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Requisitos básicos para solicitar un crédito</h2>
+            <ul className="mt-4 text-gray-600 text-lg list-disc list-inside">
+              <li>Debes tener 18 años o más para poder realizar una solicitud y tener tus documentos al día.</li>
+              <li>Para poder solicitar un crédito en Galilea debes ser residente en Colombia y ser colombiano/a.</li>
+              <li>Debes tener una cuenta bancaria activa o Nequi a tu nombre.</li>
+              <li>Tener un número de celular y correo electrónico propios, el cuál verificaremos por tu seguridad.</li>
+            </ul>
+            <div className="mt-8 flex space-x-4">
+              <Link className="py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">
+                Aplicar ahora
+              </Link>
+              <Link className="py-2 px-6 bg-gray-500 hover:bg-gray-400 text-sm text-white font-bold rounded-xl transition duration-200" to="/tasas-y-tarifas">
+                Tasas y tarifas
+              </Link>
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

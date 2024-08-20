@@ -533,31 +533,123 @@ function FourthStep({ handleNext }: FourthStepProps) {
       </div>
 
       <div className="mt-4 flex justify-end">
-        <Link
-          to="/app"
+        <button
+          onClick={checked ? handleNext : undefined}
           className={`w-full sm:w-auto inline-flex justify-center py-4 px-8 border border-transparent rounded-full text-base font-medium text-white ${
             checked ? 'bg-principal hover:bg-secondario' : 'bg-gray-300 cursor-not-allowed'
           }`}
+          disabled={!checked}
         >
-          Firmar Contrato
-        </Link>
+          Continuar
+        </button>
       </div>
     </div>
   );
 }
 
+interface FifthStepProps {
+  handleNext: () => void;
+  handlePrevious: () => void;
+}
+
+function FifthStep({ handleNext, handlePrevious }: FifthStepProps) {
+  const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
+  const inputsRef = Array.from({ length: 6 }, () => React.createRef<HTMLInputElement>());
+
+  const handleInputChange = (value: string, index: number) => {
+    if (/^\d?$/.test(value)) {
+      const newCode = [...code];
+      newCode[index] = value;
+      setCode(newCode);
+
+      // Automatically move to the next input if not the last one
+      if (value && index < 5) {
+        inputsRef[index + 1].current?.focus();
+      }
+    }
+  };
+
+  // Implement with backend
+  // const handleSubmit = () => {
+  //   const fullCode = code.join('');
+  //   if (fullCode.length === 6) {
+  //     // Trigger next step or form submission logic
+  //     handleNext();
+  //   } else {
+  //     alert('Please enter the complete 6-digit code.');
+  //   }
+  // };
+
+  const handleResendCode = () => {
+    // Logic to resend the SMS code
+    alert('Code resent!');
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-texto">Verificación vía SMS</h2>
+        <p className="text-base text-gray-500 mt-2">
+          Escribe el código de <strong>6 dígitos</strong> que te enviamos a tu celular registrado.
+        </p>
+      </div>
+
+      <div className="flex justify-center space-x-2 mt-4">
+        {code.map((digit, index) => (
+          <input
+            key={index}
+            ref={inputsRef[index]}
+            type="text"
+            maxLength={1}
+            value={digit}
+            onChange={(e) => handleInputChange(e.target.value, index)}
+            className="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-md focus:outline-none focus:border-principal"
+          />
+        ))}
+      </div>
+
+      <div className="mt-6 flex justify-between">
+        <button
+          type="button"
+          onClick={handlePrevious}
+          className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+        >
+          Anterior
+        </button>
+        <Link
+          to="/app"
+          className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
+        >
+          Firmar documentos
+        </Link>
+      </div>
+
+      <div className="text-center mt-4">
+        <button
+          type="button"
+          onClick={handleResendCode}
+          className="text-lg text-purple-600 underline hover:text-purple-800 focus:outline-none"
+        >
+          Reenviar código
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 function Form() {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   const handleNext = () => {
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, 4));
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, 5)); // Adjusted to 5 steps
   };
 
   const handlePrevious = () => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 1));
   };
 
-  const steps = ['Información básica', 'Otros datos', 'Revisar oferta', 'Firmar documentos'];
+  const steps = ['Información básica', 'Otros datos', 'Revisar oferta', 'Firmar documentos', 'Verificación SMS'];
 
   return (
     <section className="bg-fondo">
@@ -591,6 +683,7 @@ function Form() {
             {currentStep === 2 && <SecondStep handleNext={handleNext} handlePrevious={handlePrevious} />}
             {currentStep === 3 && <ThirdStep handleNext={handleNext} />}
             {currentStep === 4 && <FourthStep handleNext={handleNext} />}
+            {currentStep === 5 && <FifthStep handleNext={handleNext} handlePrevious={handlePrevious} />} {/* New step */}
           </div>
         </main>
       </div>
