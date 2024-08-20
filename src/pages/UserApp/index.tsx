@@ -4,12 +4,15 @@ import Login from './Login.js';
 import Register from './Register.js';
 import Codigo from './Codigo.js';
 import Form from './Form.js'
-import UserConsole from './UserConsole.js';
+import Dashboard from './Dashboard.js';
+import AppLayout from '../../layouts/userApp/AppLayout';
 
 function UserApp() {
   return (
     <Routes>
-      <Route path="/" element={<UserConsole />} />
+      <Route path="/*" element={<AppLayout />} >
+        <Route index element={<Dashboard />} />
+      </Route>
       <Route path="/registrate" element={<Register />} />
       <Route path="/ingresar" element={<Login />} />
       <Route path="/codigo" element={<Codigo />} />

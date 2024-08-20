@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom"
 import sideImage from "../../assets/loginSide.jpeg";
-import isologotipo from "../../assets/logo-nombre.png"
 
 function Register() {
   return (
-    <section className="bg-white">
+    <section className="bg-fondo">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <aside className="relative hidden lg:block lg:col-span-5 xl:col-span-6">
           <img
@@ -28,7 +27,7 @@ function Register() {
                   <select
                     id="documentType"
                     name="documentType"
-                    className="mt-1 block w-full rounded-md border border-gray-300 bg-white shadow-sm sm:text-base h-14 px-3"
+                    className="mt-1 block w-full rounded-md bg-white shadow-sm sm:text-base h-14 px-3"
                   >
                     <option>Seleccione una opción.</option>
                     <option>Cédula de ciudadanía</option>
@@ -45,7 +44,7 @@ function Register() {
                     type="text"
                     id="documentNumber"
                     name="documentNumber"
-                    className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-principal focus:ring-principal sm:text-base h-14 px-3"
+                    className="mt-1 block w-full rounded-md sm:text-base h-14 px-3"
                   />
                 </div>
               </div>
@@ -58,7 +57,7 @@ function Register() {
                   type="email"
                   id="email"
                   name="email"
-                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-principal focus:ring-principal sm:text-base h-14 px-3"
+                  className="mt-1 block w-full rounded-md bg-white shadow-sm focus:ring-principal sm:text-base h-14 px-3"
                 />
               </div>
 
@@ -70,7 +69,7 @@ function Register() {
                   <select
                     id="whatsappCountryCode"
                     name="whatsappCountryCode"
-                    className="mr-2 block rounded-md border border-gray-300 bg-white shadow-sm focus:border-principal focus:ring-principal sm:text-base h-14 px-3"
+                    className="mr-2 block rounded-md bg-white shadow-sm focus:ring-principal sm:text-base h-14 px-3"
                   >
                     <option>COL (+57)</option>
                   </select>
@@ -78,7 +77,7 @@ function Register() {
                     type="text"
                     id="whatsapp"
                     name="whatsapp"
-                    className="block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-principal focus:ring-principal sm:text-base h-14 px-3"
+                    className="block w-full rounded-md bg-white shadow-sm focus:ring-principal sm:text-base h-14 px-3"
                   />
                 </div>
               </div>
@@ -88,7 +87,7 @@ function Register() {
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="h-6 w-6 rounded border-gray-300 text-principal focus:ring-principal"
+                  className="h-6 w-6 rounded text-principal"
                 />
                 <label htmlFor="terms" className="ml-2 block text-base text-texto">
                   Acepto los <a href="#" className="text-principal">Términos y condiciones.</a>
@@ -100,7 +99,7 @@ function Register() {
                   id="dataConsent"
                   name="dataConsent"
                   type="checkbox"
-                  className="h-6 w-6 rounded border-gray-300 text-principal focus:ring-principal"
+                  className="h-6 w-6 rounded text-principal focus:ring-principal"
                 />
                 <label htmlFor="dataConsent" className="ml-2 block text-base text-texto">
                   Autorizo el <a href="#" className="text-principal">Tratamiento de datos personales.</a>
@@ -111,7 +110,7 @@ function Register() {
 
               <Link
                 type="submit"
-                className="mt-4 w-full inline-flex justify-center py-4 px-8 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
+                className="mt-4 w-full inline-flex justify-center py-4 px-8 rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
                 to="/app/codigo"
               >
                 Empezar

@@ -3,7 +3,7 @@ import sideImage from "../../assets/loginSide.jpeg";
 
 function Codigo() {
   return (
-    <section className="bg-white">
+    <section className="bg-fondo">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <aside className="relative hidden lg:block lg:col-span-6">
           <img
@@ -26,14 +26,14 @@ function Codigo() {
                 <input
                   type="text"
                   maxLength={6}
-                  className="w-48 h-12 border-2 border-principal rounded-md text-center text-xl font-bold tracking-widest text-principal focus:outline-none focus:border-principal focus:ring-principal"
-                  placeholder="______"
+                  className="w-58 h-12 rounded-md text-center text-3xl font-bold tracking-widest text-principal focus:outline-none focus:border-principal focus:ring-principal"
+                  placeholder=""
                 />
               </div>
 
               <Link
                 type="submit"
-                className="mt-6 w-full inline-flex justify-center py-4 px-8 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
+                className="mt-6 w-full inline-flex justify-center py-4 px-8 rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-principalToneDown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
                 to="/app/formulario"
               >
                 Verificar código
