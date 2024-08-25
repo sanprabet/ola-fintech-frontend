@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import sideImage from "../../assets/loginSide.jpeg";
+import sideImage from "../../../assets/loginSide.jpeg";
 
 function Login() {
   return (
@@ -35,7 +35,7 @@ function Login() {
               <div className="flex space-x-4">
                 <Link
                   type="button"
-                  className="w-1/2 inline-flex justify-center py-4 rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
+                  className="w-1/2 inline-flex justify-center py-4 rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-principalToneDown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
                   to="/app/codigo"
                 >
                   Whatsapp

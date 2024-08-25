@@ -6,8 +6,6 @@ import Home from './Home'
 import TasasTarifas from './TasasTarifas'
 import Nosotros from './Nosotros'
 
-const Requisitos = () => <h2>Nosotros</h2>;
-
 export const Landings = () => {
   return (
     <Routes>

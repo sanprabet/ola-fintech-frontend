@@ -7,8 +7,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
-import sideImage from "../../assets/loginSide.jpeg";
-import file from "../../assets/Requerimientos.pdf";
+import file from "../../../assets/Requerimientos.pdf";
 
 interface FirstStepProps {
   handleNext: () => void;
@@ -569,7 +568,7 @@ function FifthStep({ handleNext, handlePrevious }: FifthStepProps) {
     }
   };
 
-  // Implement with backend
+  // TODO:Implement with backen
   // const handleSubmit = () => {
   //   const fullCode = code.join('');
   //   if (fullCode.length === 6) {

@@ -60,18 +60,18 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
 
 const Accordion: React.FC = () => {
   return (
-    <section className="relative z-20 overflow-hidden bg-fondo pb-12 pt-20">
+    <section className="relative z-20 overflow-hidden bg-principal pb-12 pt-20">
       <div className="container mx-auto">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div className="mx-auto mb-[30px] max-w-[520px] text-center lg:mb-16">
-              <span className="mb-2 block text-lg font-semibold text-principal">
+              <span className="mb-2 block text-lg font-semibold text-[#8D83C2]">
                 Preguntas Frecuentes
               </span>
-              <h2 className="mb-4 text-3xl font-bold text-texto sm:text-[40px]/[48px]">
+              <h2 className="mb-4 text-3xl font-bold text-secondario sm:text-[40px]/[48px]">
                 Preguntas Frecuentes Titulo
               </h2>
-              <p className="text-base text-texto">
+              <p className="text-base text-white">
                 En Ola Fintech, te ofrecemos información clara y precisa. Encuentra todas tus respuestas en nuestro apartado de preguntas frecuentes.
               </p>
             </div>
@@ -117,22 +117,22 @@ const CTA: React.FC = () => {
     <section>
       <div className="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="bg-principal p-8 md:p-12 lg:px-16 lg:py-24">
+          <div className="bg-secondario p-8 md:p-12 lg:px-16 lg:py-24">
             <div className="mx-auto max-w-xl text-center">
-              <h2 className="text-2xl font-bold text-white md:text-3xl">
+              <h2 className="text-2xl font-bold text-texto md:text-3xl">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit
               </h2>
 
-              <p className="hidden text-white/90 sm:mt-4 sm:block">
+              <p className="hidden text-texto sm:mt-4 sm:block">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et, egestas tempus tellus
                 etiam sed. Quam a scelerisque amet ullamcorper eu enim et fermentum, augue. Aliquet
                 amet volutpat quisque ut interdum tincidunt duis.
               </p>
 
-              <a
-                href="#"
+              <Link
+                to="/app/registrate"
                 title=""
-                className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-black bg-secondario hover:bg-white transition-all duration-200 rounded-full lg:mt-16"
+                className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-white bg-principal hover:bg-principalToneDown transition-all duration-200 rounded-full lg:mt-16"
                 role="button"
               >
                 Quiero mi credito
@@ -150,7 +150,7 @@ const CTA: React.FC = () => {
                     d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -236,7 +236,7 @@ const Subscription: React.FC = () => {
   const [administracion, setAdministracion] = useState(60000);
   const [iva, setIva] = useState(11400);
   const [totalPagar, setTotalPagar] = useState(1224768);
-  const [fechaCuota, setFechaCuota] = useState('14/09/2024');
+  const [fechaCuota, setFechaCuota] = useState('14/09/2024'); // Default selected date
 
   const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
@@ -246,31 +246,95 @@ const Subscription: React.FC = () => {
     setTotalPagar(value + interes + administracion + iva);
   };
 
+  const handleFechaChange = (date: string) => {
+    setFechaCuota(date);
+  };
+
+  const calculateBackground = () => {
+    const percentage =
+      ((montoSolicitado - 100000) / (1500000 - 100000)) * 100;
+    return `linear-gradient(to right, #2D1C4B ${percentage}%, #e5e7eb ${percentage}%)`;
+  };
+
   return (
     <div className="bg-gradient-to-b bg-fondo py-20">
       <div className="container mx-auto px-6">
+        <style>
+          {`
+            .custom-slider {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 100%;
+              height: 30px;
+              background: ${calculateBackground()};
+              border-radius: 0.375rem;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+
+            .custom-slider::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 23px;
+              height: 23px;
+              background: transparent;
+              border-radius: 50%;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+
+            .custom-slider::-moz-range-thumb {
+              width: 20px;
+              height: 20px;
+              background: #2D1C4B;
+              border-radius: 50%;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+
+            .custom-slider::-webkit-slider-thumb:hover,
+            .custom-slider::-moz-range-thumb:hover {
+              background: #e64a19;
+            }
+
+            .date-button {
+              width: 100%;
+              padding: 16px 24px;
+              border: 2px solid transparent;
+              border-radius: 0.375rem;
+              text-align: center;
+              cursor: pointer;
+              font-size: 1.125rem;
+              transition: border-color 0.3s ease;
+            }
+
+            .date-button.selected {
+              border-color: #2D1C4B;
+            }
+          `}
+        </style>
         <div className="text-center w-full mx-auto mb-12">
-          <h2 className="text-3xl font-bold leading-tight text-texto sm:text-4xl lg:text-5xl">
+          <h2 className="text-4xl font-bold leading-tight text-texto sm:text-5xl lg:text-5xl">
             How does it work?
           </h2>
-          <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-texto">
+          <p className="max-w-lg mx-auto mt-4 text-lg leading-relaxed text-texto">
             Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.
           </p>
         </div>
 
         {/* Single Card Layout - Full Width */}
         <div className="w-full mx-auto">
-          <div className="bg-white shadow-xl rounded-lg overflow-hidden p-6 lg:flex lg:items-start lg:justify-between">
+          <div className="bg-white shadow-xl rounded-lg overflow-hidden p-8 lg:flex lg:items-start lg:justify-between">
             {/* Left Side (Inputs) */}
-            <div className="w-full lg:w-1/2 lg:pr-6">
-              <h3 className="text-2xl font-bold text-center text-texto mb-6">
+            <div className="w-full lg:w-1/2 lg:pr-8">
+              <h3 className="text-3xl font-bold text-center text-texto mb-8">
                 Calcula tu crédito
               </h3>
-              <p className="text-center text-principal mb-4">
+              <p className="text-center text-principal mb-6 text-lg">
                 Tu primera vez hasta $500.000
               </p>
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-texto mb-2">
+              <div className="mb-8">
+                <label className="block text-lg font-medium text-texto mb-4">
                   Elige el monto
                 </label>
                 <input
@@ -280,59 +344,80 @@ const Subscription: React.FC = () => {
                   min="100000"
                   max="1500000"
                   step="1000"
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer custom-slider"
                   onChange={handleMontoChange}
+                  style={{
+                    background: calculateBackground(),
+                  }}
                 />
-                <div className="text-center text-lg font-semibold text-texto mt-2">
+                <div className="text-center text-2xl font-semibold text-texto mt-4">
                   ${montoSolicitado.toLocaleString()}
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-texto mb-2">
+              <div className="mb-8">
+                <label className="block text-lg font-medium text-texto mb-4">
                   Elige la fecha de pago
                 </label>
-                <div className="flex justify-between items-center gap-2">
-                  <button className="w-full py-2 px-4 border border-gray-300 rounded-lg text-texto bg-white">
+                <div className="flex justify-between items-center gap-4">
+                  <button
+                    className={`date-button ${
+                      fechaCuota === '30/08/2024' ? 'selected' : ''
+                    }`}
+                    onClick={() => handleFechaChange('30/08/2024')}
+                  >
                     30/08/2024 <br /> Vence en 18 días
                   </button>
-                  <button className="w-full py-2 px-4 border-2 border-principal rounded-lg text-texto bg-white">
-                    {fechaCuota} <br /> Vence en 33 días
+                  <button
+                    className={`date-button ${
+                      fechaCuota === '14/09/2024' ? 'selected' : ''
+                    }`}
+                    onClick={() => handleFechaChange('14/09/2024')}
+                  >
+                    14/09/2024 <br /> Vence en 33 días
+                  </button>
+                  <button
+                    className={`date-button ${
+                      fechaCuota === '30/09/2024' ? 'selected' : ''
+                    }`}
+                    onClick={() => handleFechaChange('30/09/2024')}
+                  >
+                    30/09/2024 <br /> Vence en 49 días
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Right Side (Outputs) */}
-            <div className="w-full lg:w-1/2 lg:pl-6 flex flex-col justify-center h-full">
-              <div className="mb-6">
-                <div className="flex justify-between text-sm">
+            <div className="w-full lg:w-1/2 lg:pl-8 flex flex-col justify-center h-full">
+              <div className="mb-8">
+                <div className="flex justify-between text-lg">
                   <span className="text-texto">Monto solicitado</span>
                   <span className="text-texto">${montoSolicitado.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-lg">
                   <span className="text-texto">Interés corriente (25% E.A)</span>
                   <span className="text-texto">${interesCorriente.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-lg">
                   <span className="text-texto">Administración (Opcional)</span>
                   <span className="text-texto">${administracion.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-lg">
                   <span className="text-texto">IVA</span>
                   <span className="text-texto">${iva.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold mt-4">
+                <div className="flex justify-between text-2xl font-bold mt-6">
                   <span className="text-texto">Total a pagar</span>
                   <span className="text-black">${totalPagar.toLocaleString()}</span>
                 </div>
-                <div className="text-sm text-texto mt-2">
+                <div className="text-lg text-texto mt-4">
                   Fecha de tu primera cuota: {fechaCuota}
                 </div>
               </div>
 
               <button
-                className="w-full bg-principal text-white font-semibold py-3 rounded-lg hover:bg-secondario transition-all"
+                className="w-full bg-principal text-white font-bold py-4 rounded-lg text-lg hover:bg-secondario transition-all"
               >
                 Solicitar crédito
               </button>
@@ -343,6 +428,7 @@ const Subscription: React.FC = () => {
     </div>
   );
 };
+
 
 
 const Description: React.FC = () => {
@@ -362,7 +448,7 @@ const Description: React.FC = () => {
             </ul>
             <div className="mt-8 flex space-x-4">
               <Link className="py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">
-                Aplicar ahora
+                Pide tu Credito
               </Link>
               <Link className="py-2 px-6 bg-gray-500 hover:bg-gray-400 text-sm text-white font-bold rounded-xl transition duration-200" to="/tasas-y-tarifas">
                 Tasas y tarifas
@@ -397,10 +483,7 @@ const Description: React.FC = () => {
             </ul>
             <div className="mt-8 flex space-x-4">
               <Link className="py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">
-                Aplicar ahora
-              </Link>
-              <Link className="py-2 px-6 bg-gray-500 hover:bg-gray-400 text-sm text-white font-bold rounded-xl transition duration-200" to="/tasas-y-tarifas">
-                Tasas y tarifas
+                Pide tu credito
               </Link>
             </div>
           </div>
@@ -413,10 +496,10 @@ const Description: React.FC = () => {
 
 const Features = () => {
   return (
-    <section className="bg-fondo">
+    <section className="bg-principal">
       <div className="container px-6 py-24 mx-auto">
-        <h1 className="text-2xl text-center text-texto lg:text-5xl">
-          Inscríbete hoy para acceder a estos <br /><span className="text-principal">beneficios exclusivos</span>
+        <h1 className="text-2xl text-center text-white lg:text-5xl">
+          Inscríbete hoy para acceder a estos <br /><span className="text-secondario">beneficios exclusivos</span>
         </h1>
 
         <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-16 md:grid-cols-2 xl:grid-cols-3">

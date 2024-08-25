@@ -180,15 +180,15 @@ import { FaCheckCircle } from 'react-icons/fa'; // Using a popular icon library 
 
 const PuntosVenta: React.FC = () => {
   return (
-    <section className="bg-gray-50">
+    <section className="bg-principal">
       <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-20">¿Por qué elegir nuestro servicio?</h2>
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-20">¿Por qué elegir nuestro servicio?</h2>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Punto 1 */}
-          <div className="bg-secondario rounded-lg px-4 py-6 text-center">
+          <div className="bg-gray-50 rounded-lg px-4 py-6 text-center">
             <FaCheckCircle className="text-4xl text-principal mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-800">Aprobación instantánea y desembolso rápido</h3>
             <p className="mt-2 text-gray-600">
@@ -197,7 +197,7 @@ const PuntosVenta: React.FC = () => {
           </div>
 
           {/* Punto 2 */}
-          <div className="bg-secondario rounded-lg px-4 py-6 text-center">
+          <div className="bg-gray-50 rounded-lg px-4 py-6 text-center">
             <FaCheckCircle className="text-4xl text-principal mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-800">Montos y plazos de préstamo flexibles</h3>
             <p className="mt-2 text-gray-600">
@@ -206,38 +206,11 @@ const PuntosVenta: React.FC = () => {
           </div>
 
           {/* Punto 3 */}
-          <div className="bg-secondario rounded-lg px-4 py-6 text-center">
+          <div className="bg-gray-50 rounded-lg px-4 py-6 text-center">
             <FaCheckCircle className="text-4xl text-principal mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-800">Sin cargos o comisiones ocultas</h3>
             <p className="mt-2 text-gray-600">
               Términos transparentes, sin cargos ocultos.
-            </p>
-          </div>
-
-          {/* Punto 4 */}
-          <div className="bg-secondario rounded-lg px-4 py-6 text-center">
-            <FaCheckCircle className="text-4xl text-principal mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-800">Proceso 100% en línea</h3>
-            <p className="mt-2 text-gray-600">
-              Solicita, aprueba y recibe tu dinero todo en línea.
-            </p>
-          </div>
-
-          {/* Punto 5 */}
-          <div className="bg-secondario rounded-lg px-4 py-6 text-center">
-            <FaCheckCircle className="text-4xl text-principal mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-800">Transacciones seguras y protegidas</h3>
-            <p className="mt-2 text-gray-600">
-              Transacciones seguras garantizadas con encriptación avanzada.
-            </p>
-          </div>
-
-          {/* Punto 6 */}
-          <div className="bg-secondario rounded-lg px-4 py-6 text-center">
-            <FaCheckCircle className="text-4xl text-principal mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-800">Sin necesidad de papeleo físico</h3>
-            <p className="mt-2 text-gray-600">
-              No se requiere papeleo; todo se hace digitalmente.
             </p>
           </div>
         </div>

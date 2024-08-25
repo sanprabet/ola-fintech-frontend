@@ -141,7 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
       {/* Fixed Bottom Section */}
       <div className="px-4 pb-3">
-        <Link to="/pagar-cuota" className="block w-full py-4 text-center text-lg font-semibold text-white bg-principal rounded-lg hover:bg-secondario">
+        <Link to="/app/creditos" className="block w-full py-4 text-center text-lg font-semibold text-white bg-principal rounded-lg hover:bg-secondario">
           Pagar mi cuota
         </Link>
       </div>

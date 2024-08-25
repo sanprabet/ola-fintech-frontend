@@ -9,7 +9,7 @@ module.exports = {
         principalToneDown: "#56496e",
         secondario: "#E0DBEF",
         acentos: "#8075BA",
-        fondo: "#dad8ed",
+        fondo: "#DAD8ED",
         texto: "#07090E"
       },
       spacing: {

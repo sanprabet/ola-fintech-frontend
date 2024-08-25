@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
-import sideImage from "../../assets/loginSide.jpeg";
+import sideImage from "../../../assets/loginSide.jpeg";
 
 function Codigo() {
   return (
-    <section className="bg-fondo">
+    <section className="bg-fondo min-h-screen">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <aside className="relative hidden lg:block lg:col-span-6">
           <img

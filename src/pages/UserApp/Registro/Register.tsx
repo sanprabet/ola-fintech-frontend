@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import sideImage from "../../assets/loginSide.jpeg";
+import sideImage from "../../../assets/loginSide.jpeg";
 
 function Register() {
   return (
@@ -110,7 +110,7 @@ function Register() {
 
               <Link
                 type="submit"
-                className="mt-4 w-full inline-flex justify-center py-4 px-8 rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
+                className="mt-4 w-full inline-flex justify-center py-4 px-8 rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-principalToneDown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
                 to="/app/codigo"
               >
                 Empezar

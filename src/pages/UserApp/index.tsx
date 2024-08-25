@@ -1,19 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Login from './Login.js';
-import Register from './Register.js';
-import Codigo from './Codigo.js';
-import Form from './Form.js'
+import Login from './Registro/Login.js';
+import Register from './Registro/Register.js';
+import Codigo from './Registro/Codigo.js';
+import Form from './Registro/Form.js'
 
 import AppLayout from '../../layouts/userApp/AppLayout';
 import Inicio from './Inicio';
 import Credito from './Credito'
 
 import Perfil from './Perfil';
-import EditarPerfil from './EditarPerfil';
-import EditarOtros from './EditarOtros';
-import EditarBanca from './EditarBanca';
+import EditarPerfil from './Perfil/EditarPerfil.js';
+import EditarOtros from './Perfil/EditarOtros.js';
+import EditarBanca from './Perfil/EditarBanca.js';
 
 function UserApp() {
   return (
