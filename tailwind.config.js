@@ -8,6 +8,7 @@ module.exports = {
         principal: "#2D1C4B",
         principalToneDown: "#56496e",
         secondario: "#E0DBEF",
+        secondarioToneDown: "#EFEDF7",
         acentos: "#8075BA",
         fondo: "#DAD8ED",
         texto: "#07090E"

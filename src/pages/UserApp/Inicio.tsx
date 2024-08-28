@@ -10,7 +10,7 @@ const Inicio = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-principal p-6 rounded-lg text-white shadow-md relative flex flex-col justify-between">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Crédito vigente</h2>
+            <h2 className="text-lg font-semibold">Mis Creditos</h2>
             <div className="bg-white rounded-full p-2.5">
               <img src={Logo} alt="Bank Logo" className="h-10 w-10 object-cover" />
             </div>

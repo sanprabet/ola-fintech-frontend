@@ -3,7 +3,7 @@ import sideImage from "../../../assets/loginSide.jpeg";
 
 function Register() {
   return (
-    <section className="bg-fondo">
+    <section className="bg-fondo md:block min-h-screen flex flex-col items-center justify-center">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <aside className="relative hidden lg:block lg:col-span-5 xl:col-span-6">
           <img

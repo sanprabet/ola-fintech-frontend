@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo-nombre.png';
 
 const Footer: React.FC = () => {
@@ -10,10 +11,10 @@ const Footer: React.FC = () => {
           Mejora tu salud financiera sin contratar un asesor
         </strong>
 
-        <a
-          href="#"
+        <Link
+          to="/app/registrate"
           title=""
-          className="inline-flex items-center px-6 py-4 font-semibold text-black bg-secondario hover:bg-white transition-all duration-200 rounded-full"
+          className="inline-flex items-center px-6 py-4 font-semibold text-texto bg-secondario hover:bg-secondarioToneDown transition-all duration-200 rounded-full"
           role="button"
         >
           Quiero mi credito
@@ -31,7 +32,7 @@ const Footer: React.FC = () => {
               d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        </a>
+        </Link>
       </div>
 
       <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

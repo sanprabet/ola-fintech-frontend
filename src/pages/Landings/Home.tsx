@@ -1,236 +1,124 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import FAQ from '../../components/FAQ'
 
-interface AccordionItemProps {
-  header: string;
-  text: string;
-}
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
-  const [active, setActive] = useState(false);
-
-  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setActive(!active);
-  };
-
+const Hero2: React.FC = () => {
   return (
-    <div className="mb-8 w-full rounded-lg bg-white p-6 shadow-sm">
-      <button
-        className="faq-btn flex w-full text-left"
-        onClick={handleToggle}
-      >
-        <div className="mr-5 flex h-10 w-10 items-center justify-center">
-          <svg
-            className={`fill-none stroke-principal duration-200 ease-in-out ${
-              active ? "rotate-180" : ""
-            }`}
-            width="17"
-            height="10"
-            viewBox="0 0 17 10"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7.28687 8.43257L7.28679 8.43265L7.29496 8.43985C7.62576 8.73124 8.02464 8.86001 8.41472 8.86001C8.83092 8.86001 9.22376 8.69083 9.53447 8.41713L9.53454 8.41721L9.54184 8.41052L15.7631 2.70784L15.7691 2.70231L15.7749 2.69659C16.0981 2.38028 16.1985 1.80579 15.7981 1.41393C15.4803 1.1028 14.9167 1.00854 14.5249 1.38489L8.41472 7.00806L2.29995 1.38063L2.29151 1.37286L2.28271 1.36548C1.93092 1.07036 1.38469 1.06804 1.03129 1.41393L1.01755 1.42738L1.00488 1.44184C0.69687 1.79355 0.695778 2.34549 1.0545 2.69659L1.05999 2.70196L1.06565 2.70717L7.28687 8.43257Z"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-          </svg>
-        </div>
+    <>
+      <section className="py-10 bg-[#FCF8F1] bg-opacity-30 sm:py-16 lg:py-24">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl font-bold leading-tight text-texto sm:text-4xl lg:text-5xl">How does it work?</h2>
+            <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-texto">
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.
+            </p>
+          </div>
 
-        <div className="w-full">
-          <h4 className="mt-1 text-lg font-semibold text-texto">
-            {header}
-          </h4>
-        </div>
-      </button>
-      <div
-        className={`pl-[50px] duration-200 ease-in-out ${
-          active ? "block" : "hidden"
-        }`}
-      >
-        <p className="py-3 text-base leading-relaxed text-texto">
-          {text}
-        </p>
-      </div>
-    </div>
-  );
-};
-
-const Accordion: React.FC = () => {
-  return (
-    <section className="relative z-20 overflow-hidden bg-principal pb-12 pt-20">
-      <div className="container mx-auto">
-        <div className="-mx-4 flex flex-wrap">
-          <div className="w-full px-4">
-            <div className="mx-auto mb-[30px] max-w-[520px] text-center lg:mb-16">
-              <span className="mb-2 block text-lg font-semibold text-[#8D83C2]">
-                Preguntas Frecuentes
-              </span>
-              <h2 className="mb-4 text-3xl font-bold text-secondario sm:text-[40px]/[48px]">
-                Preguntas Frecuentes Titulo
-              </h2>
-              <p className="text-base text-white">
-                En Ola Fintech, te ofrecemos información clara y precisa. Encuentra todas tus respuestas en nuestro apartado de preguntas frecuentes.
-              </p>
+          <div className="relative mt-12 lg:mt-20">
+            <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
+              <img
+                className="w-full"
+                src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg"
+                alt=""
+              />
             </div>
-          </div>
-        </div>
 
-        <div className="-mx-4 flex flex-wrap">
-          <div className="w-full px-4 lg:w-1/2">
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available."
-            />
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available."
-            />
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available."
-            />
-          </div>
-          <div className="w-full px-4 lg:w-1/2">
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available."
-            />
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available."
-            />
-            <AccordionItem
-              header="How long we deliver your first blog post?"
-              text="It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research & creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available."
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-const CTA: React.FC = () => {
-  return (
-    <section>
-      <div className="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="bg-secondario p-8 md:p-12 lg:px-16 lg:py-24">
-            <div className="mx-auto max-w-xl text-center">
-              <h2 className="text-2xl font-bold text-texto md:text-3xl">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit
-              </h2>
-
-              <p className="hidden text-texto sm:mt-4 sm:block">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et, egestas tempus tellus
-                etiam sed. Quam a scelerisque amet ullamcorper eu enim et fermentum, augue. Aliquet
-                amet volutpat quisque ut interdum tincidunt duis.
-              </p>
-
-              <Link
-                to="/app/registrate"
-                title=""
-                className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-white bg-principal hover:bg-principalToneDown transition-all duration-200 rounded-full lg:mt-16"
-                role="button"
-              >
-                Quiero mi credito
-                <svg
-                  className="w-6 h-6 ml-8 -mr-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </Link>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-1 lg:grid-cols-2">
-            <img
-              alt=""
-              src="https://images.unsplash.com/photo-1621274790572-7c32596bc67f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80"
-              className="h-40 w-full object-cover sm:h-56 md:h-full"
-            />
-
-            <img
-              alt=""
-              src="https://images.unsplash.com/photo-1567168544813-cc03465b4fa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              className="h-40 w-full object-cover sm:h-56 md:h-full"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Steps: React.FC = () => {
-  return (
-    <section className="py-10 bg-[#FCF8F1] bg-opacity-30 sm:py-16 lg:py-24">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold leading-tight text-texto sm:text-4xl lg:text-5xl">How does it work?</h2>
-          <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-texto">
-            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.
-          </p>
-        </div>
-
-        <div className="relative mt-12 lg:mt-20">
-          <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
-            <img
-              className="w-full"
-              src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg"
-              alt=""
-            />
-          </div>
-
-          <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
-            <div>
-              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-principal border-2 rounded-full shadow">
-                <span className="text-xl font-semibold text-white">1</span>
+            <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
+              <div>
+                <div className="flex items-center justify-center w-16 h-16 mx-auto bg-principal border-2 rounded-full shadow">
+                  <span className="text-xl font-semibold text-white">1</span>
+                </div>
+                <h3 className="mt-6 text-xl font-semibold leading-tight text-texto md:mt-10">Create a free account</h3>
+                <p className="mt-4 text-base text-texto">
+                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+                </p>
               </div>
-              <h3 className="mt-6 text-xl font-semibold leading-tight text-texto md:mt-10">Create a free account</h3>
-              <p className="mt-4 text-base text-texto">
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-              </p>
-            </div>
 
-            <div>
-              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-principal border-2 rounded-full shadow">
-                <span className="text-xl font-semibold text-white">2</span>
+              <div>
+                <div className="flex items-center justify-center w-16 h-16 mx-auto bg-principal border-2 rounded-full shadow">
+                  <span className="text-xl font-semibold text-white">2</span>
+                </div>
+                <h3 className="mt-6 text-xl font-semibold leading-tight text-texto md:mt-10">Build your website</h3>
+                <p className="mt-4 text-base text-texto">
+                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+                </p>
               </div>
-              <h3 className="mt-6 text-xl font-semibold leading-tight text-texto md:mt-10">Build your website</h3>
-              <p className="mt-4 text-base text-texto">
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-              </p>
-            </div>
 
-            <div>
-              <div className="flex items-center justify-center w-16 h-16 mx-auto bg-principal border-2 rounded-full shadow">
-                <span className="text-xl font-semibold text-white">3</span>
+              <div>
+                <div className="flex items-center justify-center w-16 h-16 mx-auto bg-principal border-2 rounded-full shadow">
+                  <span className="text-xl font-semibold text-white">3</span>
+                </div>
+                <h3 className="mt-6 text-xl font-semibold leading-tight text-texto md:mt-10">Release & Launch</h3>
+                <p className="mt-4 text-base text-texto">
+                  Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+                </p>
               </div>
-              <h3 className="mt-6 text-xl font-semibold leading-tight text-texto md:mt-10">Release & Launch</h3>
-              <p className="mt-4 text-base text-texto">
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-              </p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <section>
+        <div className="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="bg-principal p-8 md:p-12 lg:px-16 lg:py-24">
+              <div className="mx-auto max-w-xl text-center">
+                <h2 className="text-2xl font-bold text-white md:text-3xl">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit
+                </h2>
+
+                <p className="hidden text-white sm:mt-4 sm:block">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et, egestas tempus tellus
+                  etiam sed. Quam a scelerisque amet ullamcorper eu enim et fermentum, augue. Aliquet
+                  amet volutpat quisque ut interdum tincidunt duis.
+                </p>
+
+                <Link
+                  to="/app/registrate"
+                  title=""
+                  className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-texto bg-secondario hover:bg-secondarioToneDown transition-all duration-200 rounded-full lg:mt-16"
+                  role="button"
+                  >
+                  Quiero mi credito
+                  <svg
+                    className="w-6 h-6 ml-8 -mr-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-1 lg:grid-cols-2">
+              <img
+                alt=""
+                src="https://images.unsplash.com/photo-1621274790572-7c32596bc67f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=654&q=80"
+                className="h-40 w-full object-cover sm:h-56 md:h-full"
+                />
+
+              <img
+                alt=""
+                src="https://images.unsplash.com/photo-1567168544813-cc03465b4fa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                className="h-40 w-full object-cover sm:h-56 md:h-full"
+                />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
-const Subscription: React.FC = () => {
+const Calculator: React.FC = () => {
   const [montoSolicitado, setMontoSolicitado] = useState(1130000);
   const [interesCorriente, setInteresCorriente] = useState(23368);
   const [administracion, setAdministracion] = useState(60000);
@@ -257,7 +145,7 @@ const Subscription: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b bg-fondo py-20">
+    <div className="bg-gradient-to-b bg-principal py-20">
       <div className="container mx-auto px-6">
         <style>
           {`
@@ -306,18 +194,20 @@ const Subscription: React.FC = () => {
               cursor: pointer;
               font-size: 1.125rem;
               transition: border-color 0.3s ease;
+              border-color: #E0DBEF;
             }
 
             .date-button.selected {
-              border-color: #2D1C4B;
+              background-color: #E0DBEF;
+              border: None
             }
           `}
         </style>
         <div className="text-center w-full mx-auto mb-12">
-          <h2 className="text-4xl font-bold leading-tight text-texto sm:text-5xl lg:text-5xl">
+          <h2 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-5xl">
             How does it work?
           </h2>
-          <p className="max-w-lg mx-auto mt-4 text-lg leading-relaxed text-texto">
+          <p className="max-w-lg mx-auto mt-4 text-lg leading-relaxed text-white">
             Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.
           </p>
         </div>
@@ -327,7 +217,7 @@ const Subscription: React.FC = () => {
           <div className="bg-white shadow-xl rounded-lg overflow-hidden p-8 lg:flex lg:items-start lg:justify-between">
             {/* Left Side (Inputs) */}
             <div className="w-full lg:w-1/2 lg:pr-8">
-              <h3 className="text-3xl font-bold text-center text-texto mb-8">
+              <h3 className="text-3xl font-bold text-center text-texto mb-4">
                 Calcula tu crédito
               </h3>
               <p className="text-center text-principal mb-6 text-lg">
@@ -416,11 +306,16 @@ const Subscription: React.FC = () => {
                 </div>
               </div>
 
-              <button
-                className="w-full bg-principal text-white font-bold py-4 rounded-lg text-lg hover:bg-secondario transition-all"
+              <Link
+                to="/app/registrate"
+                className="w-full bg-principal hover:bg-principalToneDown text-white font-bold rounded-full transition-all duration-200 py-4 text-xl text-center flex justify-center"
+                onClick={() => console.log("Add logic here")}
               >
                 Solicitar crédito
-              </button>
+                <svg className="w-7 h-7 ml-8 -mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </Link>
             </div>
           </div>
         </div>
@@ -429,29 +324,30 @@ const Subscription: React.FC = () => {
   );
 };
 
-
-
-const Description: React.FC = () => {
+const RequisitosTarifas: React.FC = () => {
   return (
     <section className="bg-white">
       <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        
+
         {/* First Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
           <div className="max-w-lg">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">El crédito digital que te ahorra tiempo en filas</h2>
+            <h2 className="text-5xl font-extrabold text-gray-900 sm:text-4xl">El crédito digital que te ahorra tiempo en filas</h2>
             <ul className="mt-4 text-gray-600 text-lg list-disc list-inside">
               <li>Lo pides desde nuestra web en tu celular o computador y lo recibes en menos de 1 día hábil a tu cuenta.</li>
               <li>Sin filas, sin papeles, sin codeudor.</li>
               <li>Tasa de interés fija de 1,88% M.V. o 25% E.A.</li>
               <li>Plazo mínimo 60 días y plazo máximo 90 días aplicando a la extensión que puedes usar si lo requieres.</li>
             </ul>
-            <div className="mt-8 flex space-x-4">
-              <Link className="py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">
-                Pide tu Credito
+            <div className="flex">
+              <Link to="/app/registrate" title="" className="inline-flex items-center px-6 py-4 font-semibold text-white transition-all duration-200 bg-principal rounded-full lg:mt-8 hover:bg-principalToneDown" role="button">
+                Quiero mi credito
+                <svg className="w-6 h-6 ml-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </Link>
-              <Link className="py-2 px-6 bg-gray-500 hover:bg-gray-400 text-sm text-white font-bold rounded-xl transition duration-200" to="/tasas-y-tarifas">
-                Tasas y tarifas
+              <Link to="/tasasytarifas" title="" className="inline-flex items-center px-6 py-4 ml-3 font-semibold text-texto transition-all duration-200 bg-secondario rounded-full lg:mt-8 hover:bg-secondarioToneDown" role="button">
+                Requisitos y Tarifas
               </Link>
             </div>
           </div>
@@ -474,18 +370,19 @@ const Description: React.FC = () => {
             />
           </div>
           <div className="max-w-lg order-1 md:order-2">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Requisitos básicos para solicitar un crédito</h2>
+            <h2 className="text-5xl font-extrabold text-gray-900 sm:text-4xl">Requisitos básicos para solicitar un crédito</h2>
             <ul className="mt-4 text-gray-600 text-lg list-disc list-inside">
               <li>Debes tener 18 años o más para poder realizar una solicitud y tener tus documentos al día.</li>
               <li>Para poder solicitar un crédito en Galilea debes ser residente en Colombia y ser colombiano/a.</li>
               <li>Debes tener una cuenta bancaria activa o Nequi a tu nombre.</li>
               <li>Tener un número de celular y correo electrónico propios, el cuál verificaremos por tu seguridad.</li>
             </ul>
-            <div className="mt-8 flex space-x-4">
-              <Link className="py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">
-                Pide tu credito
-              </Link>
-            </div>
+            <Link to="/app/registrate" title="" className="inline-flex items-center px-6 py-4 font-semibold text-white transition-all duration-200 bg-principal rounded-full lg:mt-8 hover:bg-principalToneDown" role="button">
+              Quiero mi credito
+              <svg className="w-6 h-6 ml-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </Link>
           </div>
         </div>
 
@@ -604,13 +501,13 @@ const Hero = () => {
             <p className="text-base font-semibold tracking-wider text-principal uppercase">Ola Finanzas Digitales</p> {/*  */}
             <h1 className="mt-4 text-4xl font-bold text-texto lg:mt-8 sm:text-6xl xl:text-7xl">Solicita tu crédito digital de forma segura.</h1>
             <p className="mt-4 text-base text-texto lg:mt-8 sm:text-xl">Te préstamos desde $200,000 hasta <b>$1,500,000</b> solo con tu <b>cedula</b>. Registrate y recibe tu dinero en menos de 24hrs.</p>
-            <a href="#" title="" className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-white hover:text-black transition-all duration-200 bg-principal rounded-full lg:mt-16 hover:bg-secondario focus:bg-yellow-400" role="button">
+            <Link to="/app/registrate" title="" className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-white hover:text-black transition-all duration-200 bg-principal rounded-full lg:mt-12 hover:bg-secondario" role="button">
               Quiero mi credito
               <svg className="w-6 h-6 ml-8 -mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-            </a>
-            <p className="mt-5 text-gray-800">Ya tienes cuenta? <a href="#" title="" className="text-black transition-all duration-200 hover:underline">Ingresa aquí</a></p>
+            </Link>
+            <p className="mt-5 text-gray-800">Ya tienes cuenta? <a href="#" title="" className="text-principal transition-all duration-200 underline hover:cursor-pointer">Ingresa aquí</a></p>
           </div>
           <div>
             <img className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/hero/1/hero-img.png" alt="Hero" />
@@ -626,11 +523,10 @@ function Home() {
     <>
       <Hero />
       <Features />
-      <Description />
-      <Subscription />
-      <Steps />
-      <CTA />
-      <Accordion />
+      <RequisitosTarifas />
+      <Calculator />
+      <Hero2 />
+      <FAQ />
     </>
   )
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Logo from '../../assets/logo.png';
 import HamburguerMenu from '../../assets/hamburguer-menu.svg';
@@ -28,7 +27,7 @@ const Navbar = () => {
         <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
           <li>
             <Link
-              className={`text-sm font-bold ${location.pathname === '/' ? 'text-principal' : 'text-gray-500 hover:text-principal'}`}
+              className={`text-sm ${location.pathname === '/' ? 'text-principal font-bold' : 'text-gray-500 hover:text-principal'}`}
               to="/"
             >
               Inicio
@@ -51,8 +50,12 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <Link className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-200 hover:bg-gray-300 text-sm text-principal font-bold rounded-xl transition duration-200" to="/app/ingresar">Ingresa</Link>
-        <Link className="hidden lg:inline-block py-2 px-6 bg-principal hover:bg-secondario hover:text-texto text-sm text-white font-bold rounded-xl transition duration-200" to="/app/registrate">Pide tu Credito</Link>
+        <Link className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-secondario hover:bg-secondarioToneDown text-sm text-black font-bold rounded-full transition-all duration-200" to="/app/ingresar">
+          Ingresa
+        </Link>
+        <Link className="hidden lg:inline-block py-2 px-6 bg-principal hover:bg-principalToneDown text-sm text-white font-bold rounded-full transition-all duration-200" to="/app/registrate">
+          Pide tu Credito
+        </Link>
       </nav>
       <div className={`navbar-menu relative z-50 ${isMenuOpen ? 'block' : 'hidden'}`}>
         <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
@@ -80,8 +83,12 @@ const Navbar = () => {
           </div>
           <div className="mt-auto">
             <div className="pt-6">
-              <Link className="block px-4 py-3 mb-3 text-md text-center font-semibold leading-none bg-gray-200 hover:bg-gray-100 rounded-xl text-principal" to="/app/ingreso">Ingresa</Link>
-              <Link className="block px-4 py-3 mb-2 leading-loose text-md text-center text-white font-semibold bg-principal hover:bg-secondario hover:text-texto rounded-xl" to="/app/registrate">Pide tu Credito</Link>
+              <Link className="block px-4 py-3 mb-3 text-md text-center font-semibold leading-none bg-secondario hover:bg-principalToneDown hover:text-white rounded-full text-black transition-all duration-200" to="/app/ingreso">
+                Ingresa
+              </Link>
+              <Link className="block px-4 py-3 mb-2 leading-loose text-md text-center text-white font-semibold bg-principal hover:bg-principalToneDown rounded-full transition-all duration-200" to="/app/registrate">
+                Pide tu Credito
+              </Link>
             </div>
             <p className="my-4 text-xs text-center text-gray-400">
               <span>Copyright © 2024 - All Rights Reserved</span>
