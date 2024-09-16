@@ -1,0 +1,229 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import Hero from './Hero';
+import Features from './Features';
+import Requirements from './Requirements';
+import HeroBottom from './HeroBottom';
+import Faq from '../../../components/FAQ'
+
+const Calculator: React.FC = () => {
+  const [montoSolicitado, setMontoSolicitado] = useState(1130000);
+  const [interesCorriente, setInteresCorriente] = useState(23368);
+  const [administracion, setAdministracion] = useState(60000);
+  const [iva, setIva] = useState(11400);
+  const [totalPagar, setTotalPagar] = useState(1224768);
+  const [fechaCuota, setFechaCuota] = useState('14/09/2024'); // Default selected date
+
+  const handleMontoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    setMontoSolicitado(value);
+    const interes = Math.ceil(value * 0.00207); // Interest calculation
+    setInteresCorriente(interes);
+    setTotalPagar(value + interes + administracion + iva);
+  };
+
+  const handleFechaChange = (date: string) => {
+    setFechaCuota(date);
+  };
+
+  const calculateBackground = () => {
+    const percentage =
+      ((montoSolicitado - 100000) / (1500000 - 100000)) * 100;
+    return `linear-gradient(to right, #2D1C4B ${percentage}%, #e5e7eb ${percentage}%)`;
+  };
+
+  return (
+    <div className="bg-gradient-to-b bg-principal py-20">
+      <div className="container mx-auto px-6">
+        <style>
+          {`
+            .custom-slider {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 100%;
+              height: 30px;
+              background: ${calculateBackground()};
+              border-radius: 0.375rem;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+
+            .custom-slider::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 23px;
+              height: 23px;
+              background: transparent;
+              border-radius: 50%;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+
+            .custom-slider::-moz-range-thumb {
+              width: 20px;
+              height: 20px;
+              background: #2D1C4B;
+              border-radius: 50%;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+
+            .custom-slider::-webkit-slider-thumb:hover,
+            .custom-slider::-moz-range-thumb:hover {
+              background: #e64a19;
+            }
+
+            .date-button {
+              width: 100%;
+              padding: 16px 24px;
+              border: 2px solid transparent;
+              border-radius: 0.375rem;
+              text-align: center;
+              cursor: pointer;
+              font-size: 1.125rem;
+              transition: border-color 0.3s ease;
+              border-color: #E0DBEF;
+            }
+
+            .date-button.selected {
+              background-color: #E0DBEF;
+              border: None
+            }
+          `}
+        </style>
+        <div className="text-center w-full mx-auto mb-12">
+          <h2 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-5xl">
+            Calcula tu crédito
+          </h2>
+          <p className="max-w-lg mx-auto mt-4 text-lg leading-relaxed text-white">
+            Simula tu crédito y conoce el monto total a pagar según tus necesidades.
+          </p>
+        </div>
+
+        {/* Single Card Layout - Full Width */}
+        <div className="w-full mx-auto">
+          <div className="bg-white shadow-xl rounded-lg overflow-hidden p-8 lg:flex lg:items-start lg:justify-between">
+            {/* Left Side (Inputs) */}
+            <div className="w-full lg:w-1/2 lg:pr-8">
+              <h3 className="text-3xl font-bold text-center text-texto mb-4">
+                Calcula tu crédito
+              </h3>
+              <p className="text-center text-principal mb-6 text-lg">
+                Tu primera vez hasta $500.000
+              </p>
+              <div className="mb-8">
+                <label className="block text-lg font-medium text-texto mb-4">
+                  Elige el monto
+                </label>
+                <input
+                  type="range"
+                  id="montoSolicitado"
+                  value={montoSolicitado}
+                  min="100000"
+                  max="1500000"
+                  step="1000"
+                  className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer custom-slider"
+                  onChange={handleMontoChange}
+                  style={{
+                    background: calculateBackground(),
+                  }}
+                />
+                <div className="text-center text-2xl font-semibold text-texto mt-4">
+                  ${montoSolicitado.toLocaleString()}
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <label className="block text-lg font-medium text-texto mb-4">
+                  Elige la fecha de pago
+                </label>
+                <div className="flex justify-between items-center gap-4 flex-wrap sm:flex-nowrap">
+                  <button
+                    className={`date-button ${
+                      fechaCuota === '30/08/2024' ? 'selected' : ''
+                    }`}
+                    onClick={() => handleFechaChange('30/08/2024')}
+                  >
+                    30/08/2024 <br /> Vence en 18 días
+                  </button>
+                  <button
+                    className={`date-button ${
+                      fechaCuota === '14/09/2024' ? 'selected' : ''
+                    }`}
+                    onClick={() => handleFechaChange('14/09/2024')}
+                  >
+                    14/09/2024 <br /> Vence en 33 días
+                  </button>
+                  <button
+                    className={`date-button ${
+                      fechaCuota === '30/09/2024' ? 'selected' : ''
+                    }`}
+                    onClick={() => handleFechaChange('30/09/2024')}
+                  >
+                    30/09/2024 <br /> Vence en 49 días
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side (Outputs) */}
+            <div className="w-full lg:w-1/2 lg:pl-8 flex flex-col justify-center h-full">
+              <div className="mb-8">
+                <div className="flex justify-between text-lg">
+                  <span className="text-texto">Monto solicitado</span>
+                  <span className="text-texto">${montoSolicitado.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-lg">
+                  <span className="text-texto">Interés corriente (25% E.A)</span>
+                  <span className="text-texto">${interesCorriente.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-lg">
+                  <span className="text-texto">Administración (Opcional)</span>
+                  <span className="text-texto">${administracion.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-lg">
+                  <span className="text-texto">IVA</span>
+                  <span className="text-texto">${iva.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-2xl font-bold mt-6">
+                  <span className="text-texto">Total a pagar</span>
+                  <span className="text-black">${totalPagar.toLocaleString()}</span>
+                </div>
+                <div className="text-lg text-texto mt-4">
+                  Fecha de tu primera cuota: {fechaCuota}
+                </div>
+              </div>
+
+              <Link
+                to="/auth/registro"
+                className="w-full bg-principal hover:bg-principalToneDown text-white font-bold rounded-full transition-all duration-200 py-4 text-xl text-center flex justify-center"
+                onClick={() => console.log("Add logic here")}
+              >
+                Solicitar crédito
+                <svg className="w-7 h-7 ml-8 -mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function Home() {
+  return (
+    <>
+      <Hero />
+      <Features />
+      <Requirements />
+      <Calculator />
+      <HeroBottom />
+      <Faq />
+    </>
+  )
+}
+
+export default Home

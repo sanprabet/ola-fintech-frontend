@@ -50,10 +50,10 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
-        <Link className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-secondario hover:bg-secondarioToneDown text-sm text-black font-bold rounded-full transition-all duration-200" to="/app/ingresar">
+        <Link className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-secondario hover:bg-secondarioToneDown text-sm text-black font-bold rounded-full transition-all duration-200" to="/auth/ingreso">
           Ingresa
         </Link>
-        <Link className="hidden lg:inline-block py-2 px-6 bg-principal hover:bg-principalToneDown text-sm text-white font-bold rounded-full transition-all duration-200" to="/app/registrate">
+        <Link className="hidden lg:inline-block py-2 px-6 bg-principal hover:bg-principalToneDown text-sm text-white font-bold rounded-full transition-all duration-200" to="/auth/registro">
           Pide tu Credito
         </Link>
       </nav>
@@ -83,10 +83,10 @@ const Navbar = () => {
           </div>
           <div className="mt-auto">
             <div className="pt-6">
-              <Link className="block px-4 py-3 mb-3 text-md text-center font-semibold leading-none bg-secondario hover:bg-principalToneDown hover:text-white rounded-full text-black transition-all duration-200" to="/app/ingreso">
+              <Link className="block px-4 py-3 mb-3 text-md text-center font-semibold leading-none bg-secondario hover:bg-principalToneDown hover:text-white rounded-full text-black transition-all duration-200" to="/auth/ingreso">
                 Ingresa
               </Link>
-              <Link className="block px-4 py-3 mb-2 leading-loose text-md text-center text-white font-semibold bg-principal hover:bg-principalToneDown rounded-full transition-all duration-200" to="/app/registrate">
+              <Link className="block px-4 py-3 mb-2 leading-loose text-md text-center text-white font-semibold bg-principal hover:bg-principalToneDown rounded-full transition-all duration-200" to="/auth/registro">
                 Pide tu Credito
               </Link>
             </div>

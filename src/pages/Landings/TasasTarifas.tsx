@@ -1,4 +1,3 @@
-import { useState} from 'react';
 import { Link } from 'react-router-dom';
 import CTA from '../../components/FAQ'
 import ValuesGrid from '../../components/ValuesGrid'
@@ -7,9 +6,7 @@ import ValuesGrid from '../../components/ValuesGrid'
 const CreditoDigital: React.FC = () => {
   return (
     <section className="bg-white">
-      <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        
-        {/* Crédito Digital Section */}
+      <div className="container mx-auto py-16 px-4 sm:px-6 lg:px-8">    
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8">
           <div className="max-w-lg">
             <h2 className="text-9xl font-extrabold text-gray-900 sm:text-6xl">Crédito Digital</h2>
@@ -23,12 +20,12 @@ const CreditoDigital: React.FC = () => {
               <li><b>Costos de cobranza: </b>$1,500 + IVA por día de atraso.</li>
             </ul>
             <Link 
-              className="text-gray-700 text-lg underline hover:text-gray-900 transition duration-200"
-              to="/credito-en-fisico">
+              className="text-gray-600 text-lg underline"
+              to="/creditosFisicos">
               Creditos fisicos
             </Link>
             <div className="mt-8 flex space-x-4">
-              <Link to="/app/registrate" title="" className="inline-flex items-center px-12 py-4 text-lg font-semibold text-white transition-all duration-200 bg-principal rounded-full hover:bg-principalToneDown" role="button">
+              <Link to="/auth/registro" title="" className="inline-flex items-center px-12 py-4 text-lg font-semibold text-white transition-all duration-200 bg-principal rounded-full hover:bg-principalToneDown" role="button">
                 Quiero mi credito
                 <svg className="w-6 h-6 ml-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -44,8 +41,6 @@ const CreditoDigital: React.FC = () => {
             />
           </div>
         </div>
-
-        {/* Legal Information */}
         <div className="mt-16">
           <div className="bg-fondo p-6 rounded-lg">
             <h3 className="text-2xl font-bold text-gray-900">

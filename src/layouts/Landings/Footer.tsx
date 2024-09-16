@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
         </strong>
 
         <Link
-          to="/app/registrate"
+          to="/auth/registro"
           title=""
           className="inline-flex items-center px-6 py-4 font-semibold text-texto bg-secondario hover:bg-secondarioToneDown transition-all duration-200 rounded-full"
           role="button"
@@ -35,43 +35,34 @@ const Footer: React.FC = () => {
         </Link>
       </div>
 
-      <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {/* About Us */}
-        <div className="text-center sm:text-left">
-          <p className="text-lg font-medium text-gray-900">Nosotros</p>
-          <ul className="mt-8 space-y-4 text-sm">
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Cómo funciona</a></li>
-            <li><a href="#">Solicitud en físico</a></li>
-          </ul>
-        </div>
+      <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
         {/* Our Services */}
         <div className="text-center sm:text-left">
-          <p className="text-lg font-medium text-gray-900">Tasas y tarifas</p>
+          <p className="text-lg font-medium text-gray-900">Tu cuenta Ola</p>
           <ul className="mt-8 space-y-4 text-sm">
-            <li><a href="#">Soporte</a></li>
-            <li><a href="#">Ingresar a mi cuenta</a></li>
-            <li><a href="#">Pagar mi cuota</a></li>
+            <li><Link to="/auth/registro">Crear mi cuenta</Link></li>
+            <li><Link to="/auth/ingreso">Pagar mi cuota</Link></li>
           </ul>
         </div>
 
         {/* Resources */}
         <div className="text-center sm:text-left">
-          <p className="text-lg font-medium text-gray-900">Contáctanos</p>
-          <ul className="mt-8 space-y-4 text-sm">
-            <li><a href="#">Preguntas frecuentes</a></li>
-            <li><a href="#">Legal</a></li>
-            <li><a href="#">Tratamiento de datos personales</a></li>
+          <p className="text-lg font-medium text-gray-900">Quien Somos?</p>
+          <ul className="mt-8 space-y-4 text-sm"> 
+            <li><Link to="/nosotros">Nosotros</Link></li>
+            <li><a href="whatsapp://send?text=Hola">Contactanos</a></li>
           </ul>
         </div>
 
         {/* Helpful Links */}
         <div className="text-center sm:text-left">
-          <p className="text-lg font-medium text-gray-900">Términos y condiciones</p>
+          <p className="text-lg font-medium text-gray-900">Legal</p>
           <ul className="mt-8 space-y-4 text-sm">
-            <li><a href="#">Contrato</a></li>
-            <li><a href="#">SIC</a></li>
+            <li><Link to="/tratamientosDatoPersonales">Tratamiento de datos personales</Link></li>
+            <li><Link to="/terminosycondiciones">Terminos y condiciones</Link></li>
+            <li><Link to="/contrato">Contrato</Link></li>
+            <li><a href="https://sedeelectronica.sic.gov.co/">SIC</a></li>
           </ul>
         </div>
       </div>

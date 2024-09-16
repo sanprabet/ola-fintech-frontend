@@ -1,7 +1,33 @@
+// File path: src/components/OtrosDatosForm.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const OtrosDatosForm = ({ userInfo }) => {
+// Define the type for bankAccount
+interface BankAccount {
+  bankName?: string;
+  accountType?: string;
+  accountNumber?: string;
+  accountSeniority?: string;
+}
+
+// Define the type for userInfo prop
+interface UserInfo {
+  occupation?: string;
+  economicActivity?: string;
+  stratum?: string;
+  hasBankAccount?: string;
+  bankAccount?: BankAccount;
+  creditSituation?: string;
+  mobilePhoneSeniority?: string;
+}
+
+// Define the props for the component
+interface OtrosDatosFormProps {
+  userInfo?: UserInfo;
+}
+
+const OtrosDatosForm: React.FC<OtrosDatosFormProps> = ({ userInfo }) => {
   const {
     occupation = '',
     economicActivity = '',

@@ -1,7 +1,28 @@
+// File path: src/components/EditarDatosBasicos.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const EditarDatosBasicos = ({ userInfo }) => {
+// Define the type for userInfo prop
+interface UserInfo {
+  firstName?: string;
+  secondName?: string;
+  firstLastName?: string;
+  secondLastName?: string;
+  maritalStatus?: string;
+  age?: string | number;
+  gender?: string;
+  educationLevel?: string;
+  department?: string;
+  city?: string;
+}
+
+// Define the props for the component
+interface EditarDatosBasicosProps {
+  userInfo?: UserInfo;
+}
+
+const EditarDatosBasicos: React.FC<EditarDatosBasicosProps> = ({ userInfo }) => {
   const {
     firstName = '',
     secondName = '',
