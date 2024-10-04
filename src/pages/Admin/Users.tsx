@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ChevronLeft, ChevronRight, User, CheckCircle, XCircle, MessageCircle } from 'lucide-react';
-import { UserAllData } from 'types';
+import { UserAllData } from 'types/types';
 import UserSidebar from './UsersSidebar';
 
 interface FetchUsersResponse {
@@ -195,7 +195,7 @@ export default function Users({ fetchPaginatedData, fetchUserAllData }: UsersPro
                               {user.creditHistory?.some(credit => credit.status === 'active') ? 'Sí' : 'No'}
                             </span>
                           </td>
-                          <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{formatDate(user.financialCheckUntil)}</td>
+                          <td className="p-3 text-sm text-gray-700 whitespace-nowrap">{formatDate(user.financialCheck ?? "")}</td>
                           <td className="p-3 text-sm whitespace-nowrap">
                             <div className="flex items-center">
                               <CheckCircle size={16} className="text-green-500 mr-1" />

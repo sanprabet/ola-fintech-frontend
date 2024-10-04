@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, User, CreditCard, MessageSquare, Copy, ChevronDown, ChevronUp, CheckCircle, XCircle, DollarSign, Calendar, Send } from 'lucide-react';
-import { UserAllData, CreditDB, MessageDB } from 'types';
+import { UserAllData, CreditDB, MessageDB } from 'types/types';
 
 interface UserSidebarProps {
   user: UserAllData;
@@ -67,16 +67,16 @@ const UserInfoComponent: React.FC<{ user: UserAllData }> = ({ user }) => (
 
 const PersonalInfoComponent: React.FC<{ personalInfo: UserAllData['personalInfo'] }> = ({ personalInfo }) => (
   <ExpandableSection title="Información Personal" icon={<User size={20} />}>
-    {Object.entries(personalInfo).map(([key, value]) => (
-      <CopyableField key={key} label={key} value={value.toString()} />
+    {Object.entries(personalInfo || {}).map(([key, value]) => (
+      <CopyableField key={key} label={key} value={String(value)} />
     ))}
   </ExpandableSection>
 );
 
 const ProfessionalInfoComponent: React.FC<{ professionalInfo: UserAllData['professionalInfo'] }> = ({ professionalInfo }) => (
   <ExpandableSection title="Información Profesional" icon={<User size={20} />}>
-    {Object.entries(professionalInfo).map(([key, value]) => (
-      <CopyableField key={key} label={key} value={value.toString()} />
+    {Object.entries(professionalInfo || {}).map(([key, value]) => (
+      <CopyableField key={key} label={key} value={String(value)} />
     ))}
   </ExpandableSection>
 );

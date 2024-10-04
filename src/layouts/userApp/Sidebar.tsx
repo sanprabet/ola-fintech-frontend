@@ -5,9 +5,10 @@ import ProfilePic from "../../assets/logo.png";
 type SidebarProps = {
   isOpen: boolean;
   toggleSidebar: () => void;
+  handleLogout: () => void;
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, handleLogout }) => {
   const location = useLocation();
 
   // TODO:Agregar esto de forma dinamica
@@ -134,18 +135,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           </li>
         </ul>
       </div>
-
-      <div className="px-4 pb-3">
-        {/* TODO: Añadir link "tag a" de pasarela de pagos */}
-        <Link to="/app/formularioCredito" className="block w-full py-4 text-center text-lg font-semibold text-white bg-principal rounded-lg hover:bg-principalToneDown">
-          Pedir mi credito
-        </Link>
-      </div>
       <div className="pb-4">
         {/* TODO: Agregar Logica que cierre la cuenta de la persona */}
-        <Link to="/" className="block text-center text-lg font-medium text-principal hover:underline w-fit mx-auto">
+        <button onClick={() => handleLogout()} className="block text-center text-lg font-medium text-principal hover:underline w-fit mx-auto">
           Cerrar sesión
-        </Link>
+        </button>
       </div>
     </aside>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PersonalInfo, ProfessionalInfo } from 'types';
+import { PersonalInfo, ProfessionalInfo } from 'types/types';
 
 interface VerificationStepProps {
   handlePrevious: () => void;

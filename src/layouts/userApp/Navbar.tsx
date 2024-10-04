@@ -96,8 +96,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
               </li>
               <hr className="dark:border-gray-700" />
               <li className="font-medium">
-                <Link
-                  to="/"
+                <button
                   className="flex items-center transition-colors duration-200 border-r-4 border-transparent hover:border-red-600"
                 >
                   <svg
@@ -115,7 +114,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                     ></path>
                   </svg>
                   Cerrar Sesion
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

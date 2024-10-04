@@ -2,10 +2,11 @@ import { useState } from 'react';
 
 interface AccordionItemProps {
   header: string;
-  text: string;
+  text?: string;
+  content?: React.ReactNode;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ header, text, content }) => {
   const [active, setActive] = useState(false);
 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -14,12 +15,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
   };
 
   return (
-    <div className="mb-8 w-full rounded-lg bg-white hover:bg-secondarioToneDown p-6 shadow-sm">
+    <div className="mb-8 w-full rounded-lg bg-white hover:bg-secondarioToneDown p-4 sm:p-6 shadow-sm">
       <button
         className="faq-btn flex w-full text-left"
         onClick={handleToggle}
       >
-        <div className="mr-5 flex h-10 w-10 items-center justify-center">
+        <div className="mr-3 sm:mr-5 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center flex-shrink-0">
           <svg
             className={`fill-none stroke-principal duration-200 ease-in-out ${
               active ? "rotate-180" : ""
@@ -39,38 +40,90 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ header, text }) => {
         </div>
 
         <div className="w-full">
-          <h4 className="mt-1 text-lg font-semibold text-texto">
+          <h4 className="mt-1 text-base sm:text-lg font-semibold text-texto">
             {header}
           </h4>
         </div>
       </button>
       <div
-        className={`pl-[50px] duration-200 ease-in-out ${
+        className={`pl-11 sm:pl-[50px] duration-200 ease-in-out ${
           active ? "block" : "hidden"
         }`}
       >
-        <p className="py-3 text-base leading-relaxed text-texto">
-          {text}
-        </p>
+        <div className="py-3 text-sm sm:text-base leading-relaxed text-texto">
+          {content || <p>{text}</p>}
+        </div>
       </div>
     </div>
   );
 };
 
 const Faq: React.FC = () => {
+  // Objeto JSON con los datos de las preguntas frecuentes
+  const faqData = [
+    {
+      header: "¿Qué es Ola Fintech?",
+      text: "Ola Fintech es una empresa de tecnología financiera (fintech) enfocada en ofrecer soluciones de crédito digital para mejorar la bancarización en Colombia. Nuestra plataforma innovadora combina tecnología avanzada y un profundo entendimiento del mercado financiero colombiano para proporcionar acceso a crédito de manera rápida, segura y accesible a personas y pequeñas empresas que han sido históricamente desatendidas por las instituciones financieras tradicionales."
+    },
+    {
+      header: "¿Qué Son los Préstamos Digitales en Ola Fintech?",
+      text: "Los préstamos digitales en Ola Fintech son productos financieros diseñados para facilitar el acceso rápido, seguro y transparente al crédito mediante el uso de tecnologías avanzadas. Estos préstamos se gestionan completamente en línea, eliminando las barreras tradicionales del crédito y ofreciendo una experiencia centrada en el cliente que es ágil y eficiente."
+    },
+    {
+      header: "¿Cuáles son los requisitos para acceder a un crédito en Ola Fintech?",
+      text: "Los requisitos para poder acceder son 4: ser mayor de edad, vivir en Colombia, tener una cuenta bancaria a tu nombre y tener un número de celular y correo electrónico propios y activos."
+    },
+    {
+      header: "¿Cuáles son los costos del crédito en Ola Fintech?",
+      text: "En Ola Fintech, nuestras tasas de interés, tanto corrientes como moratorias, están en conformidad con la legislación vigente en Colombia. Estas tasas son determinadas y publicadas mensualmente por la Superintendencia Financiera de Colombia. Para obtener información actualizada, consulta nuestro simulador de préstamos en www.olafintec.co.co. En caso de incumplimiento del plazo de pago, se aplicará interés moratorio a la tasa máxima permitida por la regulación, además de un cargo diario por gastos de cobranza del 1% más IVA."
+    },
+    {
+      header: "¿Cuánto se demora en desembolsar mi crédito Ola Fintech?",
+      text: "En Ola Fintech, el desembolso de tu crédito se realiza en un plazo de un día hábil después de completar todas las validaciones necesarias. Este proceso eficiente y rápido asegura que puedas acceder a los fondos lo más pronto posible, una vez que hayamos verificado y aprobado tu solicitud."
+    },
+    {
+      header: "¿Ola Fintech realiza cobros de comisión por anticipado?",
+      text: "Ola Fintech no cobra tarifas anticipadas ni comisiones para acceder a los créditos. Contamos con una plataforma innovadora que simplifica y agiliza el proceso de solicitud de crédito para nuestros usuarios."
+    },
+    {
+      header: "¿Por qué mi solicitud de crédito en Ola Fintech fue negada?",
+      content: (
+        <>
+          <p>En Ola Fintech, la solicitud de crédito puede ser negada por varias razones basadas en nuestros criterios de evaluación de riesgo y políticas internas. Algunos de los motivos comunes incluyen:</p>
+          <ol className="list-decimal pl-6">
+            <li><strong>Historial Crediticio Insuficiente o Negativo:</strong> Si tu historial crediticio muestra pagos atrasados, incumplimientos o deudas pendientes significativas, esto puede influir en la decisión de aprobación. También, la falta de un historial crediticio puede limitar nuestra capacidad para evaluar tu perfil de riesgo adecuadamente.</li>
+            <li><strong>Capacidad de Pago:</strong> Evaluamos la relación entre tus ingresos y tus obligaciones financieras actuales. Si determinamos que el nivel de endeudamiento es alto en relación con tus ingresos, es posible que consideremos que no cuentas con la capacidad de pago suficiente para asumir un nuevo crédito.</li>
+            <li><strong>Información Incompleta o Inexacta:</strong> La precisión y completitud de la información proporcionada son cruciales para procesar tu solicitud. Si detectamos discrepancias o datos faltantes, esto puede resultar en la negación del crédito hasta que se proporcione la información correcta.</li>
+            <li><strong>Criterios Internos de Evaluación:</strong> Utilizamos modelos avanzados de análisis de riesgo que consideran múltiples factores. Aunque estos modelos buscan ser inclusivos, en algunos casos, ciertos parámetros específicos pueden llevar a una decisión negativa.</li>
+          </ol>
+          <p>Si tu solicitud ha sido rechazada, te recomendamos revisar estos posibles factores y, si es necesario, ponerte en contacto con nuestro equipo de atención al cliente para obtener más detalles y orientación sobre cómo mejorar tus posibilidades de aprobación en el futuro.</p>
+        </>
+      )
+    },
+    {
+      header: "¿Dónde puedo pagar mi crédito Ola Fintech?",
+      text: "Para realizar el pago de tu crédito, simplemente accede a tu cuenta en nuestra plataforma y selecciona uno de los canales de pago disponibles, ya sea a través de nuestras opciones físicas o electrónicas."
+    }
+  ];
+
+  // Dividir los datos en dos columnas
+  const middleIndex = Math.ceil(faqData.length / 2);
+  const firstColumnData = faqData.slice(0, middleIndex);
+  const secondColumnData = faqData.slice(middleIndex);
+
   return (
-    <section className="relative z-20 overflow-hidden bg-fondo pb-12 pt-20">
-      <div className="container mx-auto">
+    <section className="relative overflow-hidden bg-fondo pb-12 pt-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div className="mx-auto mb-[30px] max-w-[520px] text-center lg:mb-16">
               <span className="mb-2 block text-lg font-semibold text-principal">
                 Preguntas Frecuentes
               </span>
-              <h2 className="mb-4 text-3xl font-bold text-texto sm:text-[40px]/[48px]">
+              <h2 className="mb-4 text-2xl font-bold text-texto sm:text-[40px]/[48px]">
                 Todo lo que necesitas saber sobre Ola Fintech
               </h2>
-              <p className="text-base text-texto">
+              <p className="text-sm sm:text-base text-texto">
                 En Ola Fintech, te ofrecemos información clara y precisa. Encuentra todas tus respuestas en nuestro apartado de preguntas frecuentes.
               </p>
             </div>
@@ -79,32 +132,24 @@ const Faq: React.FC = () => {
 
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 lg:w-1/2">
-            <AccordionItem
-              header="¿Qué es Ola Fintech?"
-              text="Ola Fintech es una empresa de tecnología financiera (fintech) enfocada en ofrecer soluciones de crédito digital para mejorar la bancarización en Colombia. Nuestra plataforma innovadora combina tecnología avanzada y un profundo entendimiento del mercado financiero colombiano para proporcionar acceso a crédito de manera rápida, segura y accesible."
-            />
-            <AccordionItem
-              header="¿Cuáles son los requisitos para acceder a un crédito en Ola Fintech?"
-              text="Los requisitos para acceder a un crédito son: ser mayor de 18 años, vivir en Colombia, tener una cuenta bancaria a tu nombre, y tener un número de celular y correo electrónico propios y activos."
-            />
-            <AccordionItem
-              header="¿Cuánto se demora en desembolsar mi crédito Ola Fintech?"
-              text="En Ola Fintech, el desembolso de tu crédito se realiza en un plazo de un día hábil después de completar todas las validaciones necesarias. Este proceso eficiente y rápido asegura que puedas acceder a los fondos lo más pronto posible, una vez que hayamos verificado y aprobado tu solicitud."
-            />
+            {firstColumnData.map((item, index) => (
+              <AccordionItem
+                key={index}
+                header={item.header}
+                text={item.text}
+                content={item.content}
+              />
+            ))}
           </div>
           <div className="w-full px-4 lg:w-1/2">
-            <AccordionItem
-              header="¿Cuáles son los costos del crédito en Ola Fintech?"
-              text="En Ola Fintech, nuestras tasas de interés, tanto corrientes como moratorias, están en conformidad con la legislación vigente en Colombia. Estas tasas son determinadas y publicadas mensualmente por la Superintendencia Financiera de Colombia. Para obtener información actualizada, consulta nuestro simulador de préstamos en www.olafintec.co.co."
-            />
-            <AccordionItem
-              header="¿Ola Fintech realiza cobros de comisión por anticipado?"
-              text="Ola Fintech no cobra tarifas anticipadas ni comisiones para acceder a los créditos. Contamos con una plataforma innovadora que simplifica y agiliza el proceso de solicitud de crédito para nuestros usuarios."
-            />
-            <AccordionItem
-              header="¿Dónde puedo pagar mi crédito Ola Fintech?"
-              text="Para realizar el pago de tu crédito, simplemente accede a tu cuenta en nuestra plataforma y selecciona uno de los canales de pago disponibles, ya sea a través de nuestras opciones físicas o electrónicas."
-            />
+            {secondColumnData.map((item, index) => (
+              <AccordionItem
+                key={index + middleIndex}
+                header={item.header}
+                text={item.text}
+                content={item.content}
+              />
+            ))}
           </div>
         </div>
       </div>

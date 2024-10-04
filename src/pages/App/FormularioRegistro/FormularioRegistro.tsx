@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import DatosPersonales from './DatosPersonales';
 import DatosProfesionales from './DatosProfesionales';
 import VerificationStep from './VerificarDatos';
-import { AccountCreationData } from 'types';
+import { UserInformationData } from 'types/types';
+
+import { useAppHandlers } from '../../../hooks/useAppHandlers';
+import { useAuthHandlers } from '../../../hooks/useAuthHandlers';
+
 
 const ProgressBar: React.FC<{ steps: { title: string }[]; currentStep: number }> = ({ steps, currentStep }) => (
   <div className="w-full mb-8">
@@ -29,13 +33,9 @@ const ProgressBar: React.FC<{ steps: { title: string }[]; currentStep: number }>
   </div>
 );
 
-interface FormularioRegistroProps {
-  handleSubmit: (formData: AccountCreationData) => Promise<void>;
-}
-
-const FormularioRegistro: React.FC<FormularioRegistroProps> = ({ handleSubmit }) => {
+const FormularioRegistro: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [formData, setFormData] = useState<AccountCreationData>({
+  const [formData, setFormData] = useState<UserInformationData>({
     personalInfo: {
       primerNombre: "",
       segundoNombre: "",
@@ -61,6 +61,9 @@ const FormularioRegistro: React.FC<FormularioRegistroProps> = ({ handleSubmit })
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const appHandlers = useAppHandlers();
+  const authHandlers = useAuthHandlers();
+
   const handleNext = () => setCurrentStep((prev) => Math.min(prev + 1, 3));
   const handlePrevious = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
 
@@ -69,7 +72,7 @@ const FormularioRegistro: React.FC<FormularioRegistroProps> = ({ handleSubmit })
     setSubmitError(null);
 
     try {
-      await handleSubmit(formData);
+      await appHandlers.handleFormularioRegistro(formData);
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitError('An error occurred while submitting the form. Please try again.');
@@ -115,6 +118,14 @@ const FormularioRegistro: React.FC<FormularioRegistroProps> = ({ handleSubmit })
                 submitError={submitError}
               />
             )}
+          </div>
+          <div className="mt-8 w-full flex justify-center">
+            <button
+              onClick={authHandlers.logout}
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            >
+              Logout
+            </button>
           </div>
         </main>
       </div>

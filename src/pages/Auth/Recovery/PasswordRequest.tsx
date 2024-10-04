@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link } from "react-router-dom";
 
-import { PasswordRequestData } from 'types';
+import { PasswordRequestData } from 'types/types';
 
 interface PasswordRecoveryRequestProps {
   handleSubmit: (data: PasswordRequestData) => void;

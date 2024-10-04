@@ -1,23 +1,47 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import ScrollToTop from './components/UX/ScrollToTop';
+import { AuthProvider } from './hooks/useAuth';
+import { NotificationProvider } from './hooks/useNotification';
+
+import ScrollToTop from './components/utils/ScrollToTop';
+
+import { AdminProtectedRoute } from './pages/ProtectedRoutes';
 
 import Landings from './pages/Landings';
-import UserApp from './pages/UserApp/UserAppRoutes';
-import Auth from './pages/Auth/AuthRoutes';
-import Admin from './pages/Auth/AuthRoutes'
+import AppRoutes from './pages/App/AppRoutes';
+import AuthRoutes from './pages/Auth/AuthRoutes';
+import AdminRoutes from './pages/Admin/AdminRoutes'
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
+
+      <AuthProvider>
+      <NotificationProvider>
+
       <ScrollToTop />
+
       <Routes>
-        <Route path="/*" element={<Landings />} />
-        <Route path="/auth/*" element={<Auth />} />
-        <Route path="/app/*" element={<UserApp />} />
-        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/*" element={
+          <Landings />} 
+        />
+        <Route path="/auth/*" element={
+          <AuthRoutes />} 
+        />
+        <Route path="/app/*" element={
+          <AppRoutes />
+        } />
+        <Route path="/admin/*" element={
+          <AdminProtectedRoute>
+            <AdminRoutes />
+          </AdminProtectedRoute>
+        } />
       </Routes>
-    </Router>
+
+      </NotificationProvider>
+      </AuthProvider>
+
+    </BrowserRouter>
   );
 }
 

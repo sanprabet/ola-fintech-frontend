@@ -13,7 +13,8 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "outDir": "./dist"
   },
   "include": ["src", "declarations.d.ts"]
 }

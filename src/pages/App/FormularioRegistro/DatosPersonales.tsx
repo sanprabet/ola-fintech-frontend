@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { PersonalInfo, AccountCreationData } from 'types';
+import { PersonalInfo, UserInformationData } from 'types/types';
 
 interface DatosPersonalesProps {
   handleNext: () => void;
-  formData: AccountCreationData;
-  setFormData: React.Dispatch<React.SetStateAction<AccountCreationData>>;
+  formData: UserInformationData;
+  setFormData: React.Dispatch<React.SetStateAction<UserInformationData>>;
 }
 
 interface ValidationErrors {
@@ -59,7 +59,7 @@ const ciudades = [
   // Caldas
   "Manizales", "La Dorada", "Chinchiná", "Villamaría", "Anserma",
   // Meta
-  "Villavicencio", "Acacías", "Granada", "Puerto López", "La Macarena",
+  "Villavicencio", "Acacías", "Granadas", "Puerto López", "La Macarena",
   // Tolima
   "Ibagué", "Espinal", "Melgar", "Chaparral", "Mariquita",
   // Huila
@@ -110,7 +110,7 @@ function DatosPersonales({ handleNext, formData, setFormData }: DatosPersonalesP
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData: AccountCreationData) => ({
+    setFormData((prevData: UserInformationData) => ({
       ...prevData,
       personalInfo: {
         ...prevData.personalInfo,

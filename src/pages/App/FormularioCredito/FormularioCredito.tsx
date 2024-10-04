@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import Calculator from './Calculadora';
 import ConfirmarDatos from './ConfirmarDatos';
@@ -8,7 +7,7 @@ import FirmaOTP from './FirmaOTP';
 import ConfirmarCredito from './ConfirmacionCredito';
 import BankAccountForm from './BankAccountForm';
 
-import { CreditRequestData, UserDB, BankAccountData } from 'types';
+import { CreditRequestData, UserDB, BankAccountData } from 'types/types';
 
 interface Step {
   title: string;
@@ -20,41 +19,59 @@ interface ProgressBarProps {
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ steps, currentStep }) => (
-  <div className="w-full mb-8">
-    <div className="flex justify-between items-center">
+  <div className="w-full">
+    <div className="hidden sm:flex justify-between items-center mb-4">
       {steps.map((step, index) => (
         <div key={index} className="flex-1 text-center">
           <div
-            className={`w-10 h-10 rounded-full mx-auto ${
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full mx-auto ${
               index + 1 <= currentStep ? 'bg-principal text-white' : 'bg-white text-texto'
-            } flex items-center justify-center`}
+            } flex items-center justify-center text-sm sm:text-base font-medium`}
           >
             {index + 1}
           </div>
-          <p className="mt-2 text-sm font-medium text-texto">{step.title}</p>
+          <p className="mt-2 text-xs sm:text-sm font-medium text-texto hidden sm:block">{step.title}</p>
         </div>
       ))}
     </div>
-    <div className="w-full bg-white h-1 mt-4 relative">
+    <div className="hidden sm:block w-full bg-white h-1 mt-4 relative">
       <div
-        className="absolute top-0 left-0 h-1 bg-principal"
+        className="absolute top-0 left-0 h-1 bg-principal transition-all duration-300 ease-in-out"
         style={{ width: `${(currentStep / steps.length) * 100}%` }}
       />
+    </div>
+
+    {/* Mobile view */}
+    <div className="sm:hidden">
+      <div className="flex items-center mb-4">
+        <div className="w-8 h-8 rounded-full bg-principal text-white flex items-center justify-center text-sm font-medium">
+          {currentStep}
+        </div>
+        <div className="ml-4">
+          <p className="text-sm font-medium text-texto">{steps[currentStep - 1].title}</p>
+          <p className="text-xs text-gray-500">Step {currentStep} of {steps.length}</p>
+        </div>
+      </div>
+      <div className="w-full bg-white h-2 rounded-full">
+        <div
+          className="h-2 bg-principal rounded-full transition-all duration-300 ease-in-out"
+          style={{ width: `${(currentStep / steps.length) * 100}%` }}
+        />
+      </div>
     </div>
   </div>
 );
 
-
 interface FormularioCreditoProps {
   handleSubmit: (formData: CreditRequestData) => Promise<void>;
   fetchUserAccount: () => Promise<UserDB | null>;
-  handleAddBankAccount: (account: BankAccountData) => Promise<void>;
+  addBankAccount: (account: BankAccountData) => Promise<void>;
 }
 
 const FormularioCredito: React.FC<FormularioCreditoProps> = ({ 
   handleSubmit, 
   fetchUserAccount,
-  handleAddBankAccount 
+  addBankAccount 
 }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<CreditRequestData>({
@@ -63,12 +80,9 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
     administracion: 0,
     iva: 0,
     totalPagar: 0,
-    fechaCuota: '',
-    otpCode: '',
-    otpTimestamp: 0,
+    fechaCuota: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
   const [userAccount, setUserAccount] = useState<UserDB | null>(null);
   const [isLoadingAccount, setIsLoadingAccount] = useState(true);
 
@@ -80,7 +94,6 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
         setUserAccount(account);
       } catch (error) {
         console.error('Error fetching user account:', error);
-        setSubmitError('An error occurred while fetching your account information.');
       } finally {
         setIsLoadingAccount(false);
       }
@@ -94,9 +107,8 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
 
   const onSubmit = async (otpCode: string) => {
     setIsSubmitting(true);
-    setSubmitError(null);
-
     try {
+
       const updatedFormData = {
         ...formData,
         otpCode,
@@ -106,7 +118,6 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
       handleNext(); // Move to the confirmation step after successful submission
     } catch (error) {
       console.error('Error submitting credit request:', error);
-      setSubmitError('An error occurred while submitting the credit request. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -114,40 +125,43 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
 
   const onAddBankAccount = async (accountData: BankAccountData) => {
     setIsSubmitting(true);
-    setSubmitError(null);
 
     try {
-      await handleAddBankAccount(accountData);
+      await addBankAccount(accountData);
       setUserAccount(prevAccount => prevAccount ? {...prevAccount, accountInformation: accountData} : null);
       handleNext();
     } catch (error) {
       console.error('Error adding bank account:', error);
-      setSubmitError('An error occurred while adding your bank account. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const steps = [
-    { title: 'Calcular crédito' },
-    ...(userAccount?.accountInformation ? [] : [{ title: 'Agregar cuenta bancaria' }]),
+    { title: 'Calcular' },
+    ...(userAccount?.accountInformation ? [] : [{ title: 'Cuenta bancaria' }]),
     { title: 'Confirmar datos' },
     { title: 'Revisar contrato' },
     { title: 'Verificar OTP' },
-    { title: 'Confirmar solicitud' },
+    { title: 'Confirmar' },
   ];
 
   if (isLoadingAccount) {
-    return <div>Loading account information...</div>;
+    return <div className="flex justify-center items-center h-screen">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-principal"></div>
+    </div>;
   }
 
   return (
-    <div className="bg-fondo min-h-screen py-12">
-      <div className="container mx-auto px-4">
+    <div className="bg-fondo min-h-screen">
+      <div className="container mx-auto">
         <ProgressBar steps={steps} currentStep={currentStep} />
-        {currentStep === 1 && <Calculator handleNext={handleNext} setFormData={setFormData} />}
+        {currentStep === 1 && 
+          <Calculator handleNext={handleNext} setFormData={setFormData} />
+        }
+
         {currentStep === 2 && !userAccount?.accountInformation && (
-          <BankAccountForm onSubmit={onAddBankAccount} />
+          <BankAccountForm onSubmit={onAddBankAccount} onStepBack={handlePrev} />
         )}
         {((currentStep === 2 && userAccount?.accountInformation) || (currentStep === 3 && !userAccount?.accountInformation)) && (
           <ConfirmarDatos handlePrev={handlePrev} handleNext={handleNext} formData={formData} />
@@ -157,10 +171,9 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
         )}
         {((currentStep === 4 && userAccount?.accountInformation) || (currentStep === 5 && !userAccount?.accountInformation)) && (
           <FirmaOTP 
-            handlePrev={handlePrev} 
-            handleNext={onSubmit} 
+            handlePrev={handlePrev}
+            handleNext={onSubmit}
             isSubmitting={isSubmitting}
-            submitError={submitError}
           />
         )}
         {((currentStep === 5 && userAccount?.accountInformation) || (currentStep === 6 && !userAccount?.accountInformation)) && (

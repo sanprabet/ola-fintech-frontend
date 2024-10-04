@@ -1,24 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/logo.png';
-
 import Bancolombia from '../../assets/bancolombia.png';
 import Pse from '../../assets/pse.png';
+import FormularioCredito from './FormularioCredito';
+
+import { useAppHandlers } from '../../hooks/useAppHandlers';
+import { useAuthHandlers } from '../../hooks/useAuthHandlers';
 
 const PaymentMethods = () => {
   return (
     <>
-      <div className="bg-white p-6 rounded-lg mt-6 mb-6">
-        <div className="flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-lg font-semibold mb-4 sm:mb-0">
-            ¿Aún no tienes tu crédito? Pídelo ahora y accede a todos los beneficios de tu cuenta Ola Fintech
-          </p>
-          <Link to="/app/formularioCredito" className="bg-principal text-white text-center py-2 px-4 rounded-lg shadow hover:bg-principalToneDown">
-            Pídelo Ahora
-          </Link>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-white p-6 rounded-lg flex flex-col items-center">
           <h3 className="text-lg font-semibold mb-4 w-full text-start">Paga en línea</h3>
@@ -56,10 +47,44 @@ const PaymentMethods = () => {
 };
 
 const Credito = () => {
+  const authHandlers = useAuthHandlers();
+  const appHandlers = useAppHandlers();
+  const [creditStatus, setCreditStatus] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCreditStatus = async () => {
+      try {
+        // const status = await appHandlers.getCreditStatus();
+        setCreditStatus("not_active");
+      } catch (error) {
+        console.error("Error fetching credit status:", error);
+        // Handle error (e.g., set an error state)
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCreditStatus();
+  }, [appHandlers]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container mx-auto p-4 pt-2 min-h-screen flex flex-col">
-      <h1 className='text-5xl mb-5'>Paga tu credito</h1>
-      <PaymentMethods />
+      {creditStatus === "not_active" ? (
+        <FormularioCredito
+          handleSubmit={appHandlers.handleFormularioCredito}
+          fetchUserAccount={appHandlers.fetchAccount}
+          addBankAccount={authHandlers.handleUpdateBankInformation}
+        />
+      ) : creditStatus === "pending" || creditStatus === "active" ? (
+        <PaymentMethods />
+      ) : (
+        <div>Unexpected credit status. Please contact support.</div>
+      )}
     </div>
   );
 };

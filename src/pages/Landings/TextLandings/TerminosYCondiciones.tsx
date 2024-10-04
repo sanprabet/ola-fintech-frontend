@@ -1,6 +1,6 @@
 import React from 'react';
 import TextLanding from '../../../components/TextLanding';
-import { TextLandingData } from 'types';
+import { TextLandingData } from 'types/types';
 
 const termsData: TextLandingData = {
   title: "Términos y Condiciones de Ola Fintech",

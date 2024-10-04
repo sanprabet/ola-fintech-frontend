@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ConfirmacionCredito = () => {
   const navigate = useNavigate();
-  const [state, setState] = useState('approved'); // 'loading', 'approved', 'error'
+  const [state, setState] = useState('approved');
 
   const handleRetry = () => {
     setState('loading');
@@ -14,13 +14,13 @@ const ConfirmacionCredito = () => {
   };
 
   const handleGoToAccount = () => {
-    navigate('/app');
+    
     // Add your navigation logic here
   };
 
   if (state === 'loading') {
     return (
-      <div className="bg-white shadow-xl rounded-lg overflow-hidden space-y-4 px-8 py-4">
+      <div className="bg-white shadow-xl rounded-lg overflow-hidden space-y-4 px-8 py-4 mt-4">
         <div className="flex flex-col items-center justify-center p-4">
           <svg className="animate-spin h-16 w-16 text-principal" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -34,7 +34,7 @@ const ConfirmacionCredito = () => {
 
   if (state === 'approved') {
     return (
-      <div className="bg-white shadow-xl rounded-lg overflow-hidden space-y-4 px-8 py-4">
+      <div className="bg-white shadow-xl rounded-lg overflow-hidden space-y-4 px-8 py-4 mt-4">
         <div className="text-center">
           <svg className="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -61,7 +61,7 @@ const ConfirmacionCredito = () => {
 
   if (state === 'error') {
     return (
-      <div className="bg-white shadow-xl rounded-lg overflow-hidden space-y-4 px-8 py-4">
+      <div className="bg-white shadow-xl rounded-lg overflow-hidden space-y-4 px-8 py-4 mt-4">
         <div className="text-center">
           <svg className="w-16 h-16 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

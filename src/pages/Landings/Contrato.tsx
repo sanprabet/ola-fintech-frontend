@@ -22,10 +22,9 @@ const Contrato: React.FC<ContratoProps> = ({ endpointUrl }) => {
     const fetchPdfUrl = async () => {
       try {
         const response = await axios.get(endpointUrl);
-        setPdfUrl(contrato); // Ask for the url here
+        setPdfUrl(contrato);
       } catch (error) {
         console.error('Error fetching PDF URL:', error);
-        // Fallback to local PDF if fetching fails
         setPdfUrl(contrato);
       }
     };

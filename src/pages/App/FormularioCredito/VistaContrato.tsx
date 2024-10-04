@@ -14,7 +14,7 @@ interface PdfPaginationProps {
 }
 
 const PdfPagination: React.FC<PdfPaginationProps> = ({ pageNumber, numPages, handlePageChange }) => (
-  <div className="inline-flex items-center justify-center rounded bg-principal py-1 text-white">
+  <div className="inline-flex items-center justify-center rounded bg-principal py-1 px-4 text-white space-x-2">
     <button
       onClick={() => handlePageChange(pageNumber - 1)}
       disabled={pageNumber <= 1}
@@ -34,7 +34,7 @@ const PdfPagination: React.FC<PdfPaginationProps> = ({ pageNumber, numPages, han
       <label htmlFor="PaginationPage" className="sr-only">Página</label>
       <input
         type="number"
-        className="h-8 w-12 rounded border-none bg-transparent p-0 text-center text-xs font-medium [-moz-appearance:_textfield] focus:outline-none focus:ring-inset focus:ring-white [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+        className="h-8 w-12 rounded border-none bg-transparent p-0 text-center text-xs font-medium focus:outline-none focus:ring-inset focus:ring-white"
         min="1"
         max={numPages}
         value={pageNumber}
@@ -93,9 +93,12 @@ const VistaContrato: React.FC<VistaContratoProps> = ({ handlePrev, handleNext })
   };
 
   return (
-    <div className="bg-white shadow-xl rounded-lg overflow-hidden p-8 px-4 py-12 space-y-4">
-      <div ref={containerRef} className="pdf-viewer mx-auto w-full">
-        <Document file={file} onLoadSuccess={onDocumentLoadSuccess} className="border border-gray-500">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-2xl mx-auto mt-4">
+      <div className="p-4 sm:p-6 border-b border-gray-200">
+        <h2 className="text-2xl sm:text-3xl font-bold text-texto text-center">Contrato del Crédito</h2>
+      </div>
+      <div ref={containerRef} className="pdf-viewer mx-auto w-full bg-white md:p-6 space-y-4">
+        <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} width={pageWidth} />
         </Document>
         <div className="mt-4 flex justify-center">
@@ -106,7 +109,7 @@ const VistaContrato: React.FC<VistaContratoProps> = ({ handlePrev, handleNext })
           />
         </div>
       </div>
-      <div className="terms-and-conditions">
+      <div className="terms-and-conditions px-4">
         <label className="flex items-center space-x-2">
           <input
             type="checkbox"
@@ -114,24 +117,26 @@ const VistaContrato: React.FC<VistaContratoProps> = ({ handlePrev, handleNext })
             onChange={() => setChecked(!checked)}
             className="h-6 w-6 text-principal border-gray-300 rounded"
           />
-          <span className="text-lg text-gray-700">Acepto los términos y condiciones del contrato</span>
+          <span className="text-base md:text-lg text-gray-700 py-3">Acepto los términos y condiciones del contrato</span>
         </label>
       </div>
-      <div className="mt-4 flex justify-between">
-          <button
-            type="button"
-            onClick={handlePrev}
-            className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-          >
-            Anterior
-          </button>
-          <button
-            type="button"
-            onClick={handleNext}
-            className="inline-flex justify-center py-2 px-4 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-principal hover:bg-secondario hover:text-texto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal"
-          >
-            Siguiente
-          </button>
+      <div className="bg-gray-100 p-4 sm:p-6 border-t border-dashed border-gray-300 flex justify-between">
+        <button
+          type="button"
+          onClick={handlePrev}
+          className="py-2 px-4 border border-transparent rounded-full shadow-sm text-sm sm:text-base font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+        >
+          Anterior
+        </button>
+        <button
+          type="button"
+          onClick={handleNext}
+          disabled={!checked}  // Button is disabled when the checkbox is not checked
+          className={`py-2 px-4 border border-transparent rounded-full shadow-sm text-sm sm:text-base font-medium text-white 
+            ${checked ? 'bg-principal hover:bg-secondario hover:text-texto' : 'bg-gray-300 cursor-not-allowed'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-principal`}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );

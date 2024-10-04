@@ -1,17 +1,31 @@
 import React from 'react';
-import { CheckCircle, XCircle, Loader } from 'lucide-react';
+import { CheckCircle, XCircle, Loader, AlertCircle, Info } from 'lucide-react';
 
 interface NotificationBarProps {
-  type: 'success' | 'error' | 'loading';
+  type: 'success' | 'error' | 'warning' | 'info' | 'loading';
   message: string;
   onDismiss: () => void;
 }
 
 const NotificationBar: React.FC<NotificationBarProps> = ({ type, message, onDismiss }) => {
-  const bgColor = type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-blue-600';
-  const icon = type === 'success' ? <CheckCircle className="h-6 w-6 text-white" /> :
-               type === 'error' ? <XCircle className="h-6 w-6 text-white" /> :
-               <Loader className="h-6 w-6 text-white animate-spin" />;
+  const getTypeStyles = () => {
+    switch (type) {
+      case 'success':
+        return { bgColor: 'bg-green-600', icon: <CheckCircle className="h-6 w-6 text-white" /> };
+      case 'error':
+        return { bgColor: 'bg-red-600', icon: <XCircle className="h-6 w-6 text-white" /> };
+      case 'warning':
+        return { bgColor: 'bg-yellow-500', icon: <AlertCircle className="h-6 w-6 text-white" /> };
+      case 'info':
+        return { bgColor: 'bg-blue-500', icon: <Info className="h-6 w-6 text-white" /> };
+      case 'loading':
+        return { bgColor: 'bg-blue-600', icon: <Loader className="h-6 w-6 text-white animate-spin" /> };
+      default:
+        return { bgColor: 'bg-gray-600', icon: <Info className="h-6 w-6 text-white" /> };
+    }
+  };
+
+  const { bgColor, icon } = getTypeStyles();
 
   return (
     <div className={`fixed inset-x-0 bottom-0 pb-2 sm:pb-5 z-50`}>

@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from 'lucide-react';
-import { PasswordResetData } from 'types';
+import { PasswordResetData } from 'types/types';
 
 interface PasswordResetProps {
   handleSubmit: (data: PasswordResetData) => void;

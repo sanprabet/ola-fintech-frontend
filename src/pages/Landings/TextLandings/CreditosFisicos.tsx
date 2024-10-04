@@ -1,6 +1,6 @@
 import React from 'react';
 import TextLanding from '../../../components/TextLanding';
-import { TextLandingData } from 'types';
+import { TextLandingData } from 'types/types';
 
 const termsData: TextLandingData = {
   title: "Solicita tu crédito a través del canal físico (Opcional)",
