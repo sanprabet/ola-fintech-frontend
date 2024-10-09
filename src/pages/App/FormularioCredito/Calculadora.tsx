@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, Info } from "lucide-react";
-import { CreditRequestData } from "types/types";
+import { CreditData } from "types/types";
+import { Link } from 'react-router-dom';
 
 interface CalculatorProps {
   handleNext: () => void;
-  setFormData: (data: CreditRequestData) => void;
+  setFormData: (data: CreditData) => void;
 }
 
 const Tooltip: React.FC<{ text: string, children: React.ReactNode }> = ({ text, children }) => {
@@ -94,8 +95,8 @@ const Calculator: React.FC<CalculatorProps> = ({ handleNext, setFormData }) => {
   };
 
   return (
-    <div className="mt-4">
-      <div className="container mx-auto">
+    <div className="py-10 sm:py-20">
+      <div className="container mx-auto px-4 sm:px-6">
         <style>
           {`
             .custom-slider {
@@ -146,7 +147,7 @@ const Calculator: React.FC<CalculatorProps> = ({ handleNext, setFormData }) => {
               cursor: pointer;
               font-size: 0.875rem;
               transition: all 0.3s ease;
-              background-color: #EFEDF7;
+              background-color: transparent;
               color: #07090E;
             }
 
@@ -192,13 +193,12 @@ const Calculator: React.FC<CalculatorProps> = ({ handleNext, setFormData }) => {
           `}
         </style>
         <div className="w-full mx-auto">
-          <div className="bg-white shadow-xl rounded-lg overflow-hidden p-6 sm:p-8 lg:flex lg:items-start lg:justify-between">
-            {/* Left Side (Inputs) */}
+          <div className="bg-white shadow-xl rounded-lg p-6 sm:p-8 lg:flex lg:items-start lg:justify-between">
             <div className="w-full lg:w-1/2 lg:pr-8">
               <h3 className="text-2xl sm:text-3xl font-bold text-center text-texto mb-3 sm:mb-4">
-                Confirma el monto de tu crédito
+                Calcula tu crédito
               </h3>
-              <p className="text-center text-principal mb-4 sm:mb-6 text-base sm:text-lg">
+              <p className="text-center text-sm sm:text-base text-texto mb-4">
                 Tu primera vez hasta $500.000
               </p>
               <div className="mb-6 sm:mb-8">
@@ -260,7 +260,6 @@ const Calculator: React.FC<CalculatorProps> = ({ handleNext, setFormData }) => {
               </div>
             </div>
 
-            {/* Right Side (Outputs) */}
             <div className="w-full lg:w-1/2 lg:pl-8 flex flex-col justify-center h-full mt-6 lg:mt-0">
               <div className="mb-6 sm:mb-8 p-6 rounded-lg">
                 {[

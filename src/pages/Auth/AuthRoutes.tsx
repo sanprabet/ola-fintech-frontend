@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import AuthLayout from '../../layouts/Auth/AuthLayout';
 import Login from './Login';
+import ResetPassword from './ResetPassword';
 import Register from './Register';
 import OTPCode from './Codigo';
 import AdminLogin from './AdminLogin';
@@ -38,6 +39,12 @@ function AuthRoutes() {
           <Route path="ingreso" element={
             <LoginProtectedRoute>
               <Login />
+            </LoginProtectedRoute>
+          } />
+          
+          <Route path="recuperar" element={
+            <LoginProtectedRoute>
+              <ResetPassword />
             </LoginProtectedRoute>
           } />
           

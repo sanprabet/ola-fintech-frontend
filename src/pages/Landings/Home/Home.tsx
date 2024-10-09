@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, Info } from "lucide-react";
-
+import { CreditData } from "types/types";
+import { Link } from 'react-router-dom';
 import Hero from './Hero';
 import Features from './Features';
 import Requirements from './Requirements';
@@ -38,15 +38,15 @@ const Tooltip: React.FC<{ text: string, children: React.ReactNode }> = ({ text, 
 };
 
 const Calculator: React.FC = () => {
-  const [montoSolicitado, setMontoSolicitado] = useState(1130000);
-  const [interesCorriente, setInteresCorriente] = useState(23368);
-  const [administracion] = useState(60000);
-  const [iva] = useState(11400);
-  const [totalPagar, setTotalPagar] = useState(1224768);
-  const [fechaCuota, setFechaCuota] = useState('');
+  const [montoSolicitado, setMontoSolicitado] = useState<number>(200000); // Initial value set to 200,000
+  const [interesCorriente, setInteresCorriente] = useState<number>(23368);
+  const [administracion] = useState<number>(60000);
+  const [iva] = useState<number>(11400);
+  const [totalPagar, setTotalPagar] = useState<number>(276768); // Adjusted initial total
+  const [fechaCuota, setFechaCuota] = useState<string>('');
 
   useEffect(() => {
-    setFechaCuota(getNextDate(15));
+    setFechaCuota(getFormattedDate(15));
   }, []);
 
   const handleMontoChange = (value: number) => {
@@ -67,38 +67,17 @@ const Calculator: React.FC = () => {
     handleMontoChange(montoSolicitado + change);
   };
 
-  const handleFechaChange = (dayOfMonth: number) => {
-    setFechaCuota(getNextDate(dayOfMonth));
+  const handleFechaChange = (days: number) => {
+    setFechaCuota(getFormattedDate(days));
   };
 
-  const getNextDate = (dayOfMonth: number) => {
-    const today = new Date();
-    let date = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
-
-    // Si la fecha ya pasó, pasar al siguiente mes
-    if (date <= today) {
-      date.setMonth(date.getMonth() + 1);
-    }
-
+  const getFormattedDate = (days: number) => {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
     return date.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
 
-  const daysUntilDate = (dayOfMonth: number): number => {
-    const today = new Date();
-    let targetDate = new Date(today.getFullYear(), today.getMonth(), dayOfMonth);
-
-    // Si la fecha ya pasó, pasar al siguiente mes
-    if (targetDate <= today) {
-      targetDate.setMonth(targetDate.getMonth() + 1);
-    }
-
-    const diffTime = targetDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    return diffDays;
-  };
-
-  const calculateBackground = () => {
+  const calculateBackground = (): string => {
     const percentage = ((montoSolicitado - 200000) / (1500000 - 200000)) * 100;
     return `linear-gradient(to right, #2D1C4B ${percentage}%, #E0DBEF ${percentage}%)`;
   };
@@ -124,7 +103,7 @@ const Calculator: React.FC = () => {
               appearance: none;
               width: 24px;
               height: 24px;
-              background: #2D1C4B; /* Purple color */
+              background: #2D1C4B;
               border-radius: 50%;
               cursor: pointer;
               transition: background 0.3s ease, transform 0.1s ease;
@@ -134,7 +113,7 @@ const Calculator: React.FC = () => {
             .custom-slider::-moz-range-thumb {
               width: 24px;
               height: 24px;
-              background: #2D1C4B; /* Purple color */
+              background: #2D1C4B;
               border-radius: 50%;
               cursor: pointer;
               transition: background 0.3s ease, transform 0.1s ease;
@@ -143,7 +122,7 @@ const Calculator: React.FC = () => {
 
             .custom-slider::-webkit-slider-thumb:hover,
             .custom-slider::-moz-range-thumb:hover {
-              background: #56496e; /* Darker purple on hover */
+              background: #56496e;
               transform: scale(1.1);
             }
 
@@ -253,15 +232,15 @@ const Calculator: React.FC = () => {
                   Elige la fecha de pago
                 </label>
                 <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  {[15, 30].map((day) => (
+                  {[15, 30].map((days) => (
                     <button
-                      key={day}
-                      className={`date-button ${fechaCuota === getNextDate(day) ? 'selected' : ''}`}
-                      onClick={() => handleFechaChange(day)}
+                      key={days}
+                      className={`date-button ${fechaCuota === getFormattedDate(days) ? 'selected' : ''}`}
+                      onClick={() => handleFechaChange(days)}
                     >
-                      <span className="block text-sm sm:text-base">{getNextDate(day)}</span>
+                      <span className="block text-sm sm:text-base">{getFormattedDate(days)}</span>
                       <span className="block text-xs sm:text-sm mt-1">
-                        Vence en {daysUntilDate(day)} días
+                        Vence en {days} días
                       </span>
                     </button>
                   ))}
@@ -271,36 +250,30 @@ const Calculator: React.FC = () => {
 
             <div className="w-full lg:w-1/2 lg:pl-8 flex flex-col justify-center h-full mt-6 lg:mt-0">
               <div className="mb-6 sm:mb-8 p-6 rounded-lg">
-                <div className="flex justify-between text-sm sm:text-base mb-2">
-                  <span className="text-texto">Monto solicitado</span>
-                  <span className="text-texto font-medium">${montoSolicitado.toLocaleString()}</span>
-                </div>
-
-                <div className="flex justify-between text-sm sm:text-base mb-2">
-                  <Tooltip text="(Efectivo Anual) sobre el capital adeudado, para Octubre de 2024 la tasa máxima fijada por las autoridades en Colombia es del 28,17% E.A. En el caso que desees hacer tu solicitud en fisico, la tasa de interés corriente aplicada será la máxima legal permitida.">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-texto">Interés corriente</span>
-                      <Info size={16} className="text-gray-500" />
-                    </div>
-                  </Tooltip>
-                  <span className="text-texto font-medium">${interesCorriente.toLocaleString()}</span>
-                </div>
-
-                <div className="flex justify-between text-sm sm:text-base mb-2">
-                  <Tooltip text="Esta tarifa te permite realizar solicitudes en línea, garantizar un cupo de crédito rotativo, firmar documentos electrónicamente y acceder a los beneficios de Galilea, si no deseas usar este servicio puedes hacer tu solicitud en físico que encuentras en el pie de página.">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-texto">Administración</span>
-                      <Info size={16} className="text-gray-500" />
-                    </div>
-                  </Tooltip>
-                  <span className="text-texto font-medium">${administracion.toLocaleString()}</span>
-                </div>
-
-                <div className="flex justify-between text-sm sm:text-base mb-2">
-                  <span className="text-texto">IVA</span>
-                  <span className="text-texto font-medium">${iva.toLocaleString()}</span>
-                </div>
-
+                {[
+                  { label: 'Monto solicitado', value: montoSolicitado },
+                  {
+                    label: 'Interés corriente (25% E.A)',
+                    value: interesCorriente,
+                    tooltip: "(Efectivo Anual) sobre el capital adeudado, para Octubre de 2024 la tasa máxima fijada por las autoridades en Colombia es del 28,17% E.A.",
+                  },
+                  {
+                    label: 'Administración (Opcional)',
+                    value: administracion,
+                    tooltip: "Esta tarifa te permite realizar solicitudes en línea, garantizar un cupo de crédito rotativo, firmar documentos electrónicamente y acceder a beneficios.",
+                  },
+                  { label: 'IVA', value: iva },
+                ].map(({ label, value, tooltip }) => (
+                  <div key={label} className="flex justify-between text-sm sm:text-base mb-2">
+                    <Tooltip text={tooltip || ""}>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-texto">{label}</span>
+                        {tooltip && <Info size={16} className="text-gray-500" />}
+                      </div>
+                    </Tooltip>
+                    <span className="text-texto font-medium">${value.toLocaleString()}</span>
+                  </div>
+                ))}
                 <div className="flex justify-between text-xl sm:text-2xl font-bold mt-4 pt-4 border-t border-secondario">
                   <span className="text-texto">Total a pagar</span>
                   <span className="text-principal">${totalPagar.toLocaleString()}</span>
@@ -311,10 +284,13 @@ const Calculator: React.FC = () => {
               </div>
 
               <Link
-                to="/auth/registro"
+                to="/app"
                 className="w-full bg-principal hover:bg-principalToneDown text-white font-bold rounded-full transition-all duration-200 py-3 sm:py-4 text-lg sm:text-xl text-center flex justify-center items-center"
               >
                 Solicitar crédito
+                <svg className="w-5 h-5 sm:w-7 sm:h-7 ml-4 sm:ml-8 -mr-1 sm:-mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </Link>
             </div>
           </div>

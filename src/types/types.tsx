@@ -13,41 +13,20 @@ export interface TextLandingData {
 
 
 
+
 export interface LoginData {
   documentNumber: string;
   password: string;
 }
 
-
-// User Recovery
-export interface PasswordRequestData {
-  documentNumber: string
-}
-
-export interface PasswordRecoveryData {
-  code: string
-}
-
-export interface PasswordResetData{
-  newPassword: string;
-  confirmPassword: string
-}
-
-// Admin
 export interface AdminLoginData {
   email: string;
   password: string;
 }
 
-// // USER APP
-// Register Form
-export interface UserInformationData {
-  personalInfo: PersonalInfo;
-  professionalInfo: ProfessionalInfo;
-}
 
 
-export interface PersonalInfo { // All string values need to be != ""
+export interface PersonalInfo {
   primerNombre: string; 
   segundoNombre?: string;
   primerApellido: string;
@@ -59,7 +38,6 @@ export interface PersonalInfo { // All string values need to be != ""
   departamento: string;
   ciudad: string;
 }
-
 export interface ProfessionalInfo {
   ocupacion: string;
   actividadEconomica: string;
@@ -68,9 +46,76 @@ export interface ProfessionalInfo {
   situacionCrediticia: string;
   antiguedadTelefonoMovil: string;
 }
+export interface UserInformationRequest {
+  personalInfo: PersonalInfo;
+  professionalInfo: ProfessionalInfo;
+}
 
-// Credit Form
-export interface CreditRequestData {
+export interface BankAccountRequest {
+  accountType: 'ahorro'|'corriente'|'billetera digital (Nequi)'| '';
+  accountNumber: string;
+  accountInstitution: string;
+}
+
+
+
+export interface UserRegister{
+  documentType: string,
+  documentNumber: string,
+  email: string,
+  phoneNumber: string,
+}
+
+export interface UserRegisterAuth extends UserRegister{
+  password: string
+}
+
+export interface UserDataRequest extends UserRegister{
+  uid?: string;
+}
+
+export interface UserDB extends UserDataRequest {
+  _id: string;
+
+  uid: string;
+  admin?: boolean;
+  
+  personalInfo?: PersonalInfo;
+  professionalInfo?: ProfessionalInfo;
+  accountInformation?: BankAccountRequest;
+
+  financialCheck?: string;
+}
+
+
+
+export interface MessageDB {
+  _id: string;
+  uid: string;
+  status: 'pending' | 'sent' | 'error' | 'scheduled' | 'failed';
+  scheduledTimeStamp?: string; // Only if status == "pending"
+
+  error?: {
+    code: string;    // Error code if something goes wrong
+    message: string; // Detailed error message
+  };
+
+  sent?: {
+    sid: string;           // Twilio Message SID
+    dateCreated: string;    // When the message was created
+    dateSent?: string;      // When the message was sent (may not be available immediately)
+    to: string;             // Recipient's phone number
+    from: string;           // Twilio phone number (WhatsApp)
+    body: string;           // Message content
+    price?: string;         // Cost of sending the message (if available)
+    status: string;         // Message status (queued, sent, delivered, failed, etc.)
+  };
+}
+
+
+
+
+export interface CreditData {
   montoSolicitado: number;
   interesCorriente: number;
   administracion: number;
@@ -79,65 +124,27 @@ export interface CreditRequestData {
   fechaCuota: string;
 }
 
-// Bank account
-export interface BankAccountData {
-  accountType: 'ahorro'|'corriente'|'billetera digital (Nequi)'| '';
-  accountNumber: string;
-  accountInstitution: string;
-}
-
-// // ADMIN APP
-export interface UserAllData extends UserDB {
-  creditHistory?: CreditDB[];
-  messageHistory?: MessageDB[]
-}
-
-// User
-export interface UserRegisterForm {
-  documentType: string,
-  documentNumber: string,
-  email: string,
-  phoneNumber: string,
-  password: string
-}
-
-export interface UserRegisterData{
-  uid?: string;
-  documentType: string;
-  documentNumber: string;
-  email: string;
-  phoneNumber: string;
-}
-
-export interface UserDB {
-  _id: string;
-  uid: string;
-  
-  documentType: string;
-  documentNumber: string;
-  
-  email: string;
-  phoneNumber: string;
-  
-  financialCheck?: string;
-  admin?: boolean;
-  
-  personalInfo?: PersonalInfo;
-  professionalInfo?: ProfessionalInfo;
-  accountInformation?: BankAccountData
-}
-
-export interface CreditDB{
-  userId: string;
-  status: 'pending'|'active'|'payed'|'denied';
+export interface CreditRequestData extends CreditData {
+  uid: string
   otpCode: string;
   otpTimeStamp: string;
-  data: CreditRequestData
 }
 
-export interface MessageDB {
-  userId: string;
-  status: 'scheduled'|'sending'|'sent'|'error';
-  message: string;
-  error?: string;
+export interface CreditDB extends CreditRequestData{
+  _id: string;
+  status: 'pending'|'rejected'|'active'|'paid'|'extended';
+
+  montoAprobado?: string // This status only exist if status is 'rejected'
+  extensionRequested?: boolean // This status only exist if status is 'active'
+
+}
+
+
+
+
+
+export interface UserAllData{
+  userData: UserDB
+  creditHistory: CreditDB[];
+  messageHistory: MessageDB[];
 }

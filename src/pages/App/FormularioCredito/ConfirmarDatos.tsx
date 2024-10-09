@@ -1,13 +1,13 @@
 import React from 'react';
-import { CreditRequestData } from 'types/types';
+import { CreditData } from 'types/types';
 
 interface ConfirmarDatosProps {
   handlePrev: () => void;
   handleNext: () => void;
-  formData: CreditRequestData;
+  formData: CreditData;
 }
 
-type DataKey = keyof CreditRequestData;
+type DataKey = keyof CreditData;
 
 interface DataItem {
   key: DataKey;

@@ -7,7 +7,7 @@ import ScrollToTop from './components/utils/ScrollToTop';
 
 import { AdminProtectedRoute } from './pages/ProtectedRoutes';
 
-import Landings from './pages/Landings';
+import LandingRoutes from './pages/Landings';
 import AppRoutes from './pages/App/AppRoutes';
 import AuthRoutes from './pages/Auth/AuthRoutes';
 import AdminRoutes from './pages/Admin/AdminRoutes'
@@ -23,7 +23,7 @@ function App() {
 
       <Routes>
         <Route path="/*" element={
-          <Landings />} 
+          <LandingRoutes />} 
         />
         <Route path="/auth/*" element={
           <AuthRoutes />} 

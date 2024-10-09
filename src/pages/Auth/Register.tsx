@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from 'lucide-react';
-import { UserRegisterForm } from "types/types";
+import { UserRegisterAuth } from "types/types";
 import { useAuthHandlers } from '../../hooks/useAuthHandlers';
 
 interface FormErrors {
@@ -12,7 +12,7 @@ interface FormErrors {
 }
 
 function Register() {
-  const [registerData, setRegisterData] = useState<UserRegisterForm>({
+  const [registerData, setRegisterData] = useState<UserRegisterAuth>({
     documentType: "Cédula de ciudadanía",
     documentNumber: "",
     email: "",

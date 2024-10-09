@@ -1,1 +1,1 @@
-export { default } from './Landings'
+export { default } from './LandingRoutes'

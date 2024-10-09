@@ -10,7 +10,7 @@ import TerminosYCondiciones from "./TextLandings/TerminosYCondiciones"
 import CreditosFisicos from './TextLandings/CreditosFisicos';
 import Contrato from './Contrato';
 
-const Landings = () => {
+const LandingRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingLayout  />}>
@@ -26,4 +26,4 @@ const Landings = () => {
   );
 };
 
-export default Landings;
+export default LandingRoutes;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UserDB, BankAccountData, PersonalInfo, ProfessionalInfo } from 'types/types';
+import { UserDB, BankAccountRequest, PersonalInfo, ProfessionalInfo } from 'types/types';
 import useAuth from '../../hooks/useAuth';
 import { useAuthHandlers } from '../../hooks/useAuthHandlers';
 
@@ -45,7 +45,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = ({ user, onEditClick }) => {
 };
 
 interface BankAccountCardProps {
-  account: BankAccountData;
+  account: BankAccountRequest;
   onEditClick: () => void;
 }
 
@@ -70,13 +70,13 @@ const BankAccountCard: React.FC<BankAccountCardProps> = ({ account, onEditClick 
 };
 
 interface BankAccountFormProps {
-  account: BankAccountData | null;
-  onSubmit: (account: BankAccountData) => void;
+  account: BankAccountRequest | null;
+  onSubmit: (account: BankAccountRequest) => void;
   onCancel: () => void;
 }
 
 const BankAccountForm: React.FC<BankAccountFormProps> = ({ account, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState<BankAccountData>(account || {
+  const [formData, setFormData] = useState<BankAccountRequest>(account || {
     accountType: '',
     accountNumber: '',
     accountInstitution: '',
@@ -553,7 +553,7 @@ const UserAccount: React.FC = () => {
     }
   };
 
-  const handleBankAccountUpdate = async (newAccountInfo: BankAccountData) => {
+  const handleBankAccountUpdate = async (newAccountInfo: BankAccountRequest) => {
     try {
       await handleUpdateBankInformation(newAccountInfo);
       setIsEditingBank(false);

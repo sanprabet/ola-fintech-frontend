@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from 'firebase/auth';
-import { UserDB } from '../types/types';
+import { UserDB, CreditDB } from '../types/types';  // Import CreditDB type
 import { auth } from '../config/firebase';
 import { UserApi } from '../services/user';
-
-const OTP_EXPIRATION_TIME = 60 * 60 * 1000; // 60 minutes in milliseconds
+import { CreditApi } from '../services/credit';  // Import CreditApi
 
 interface AuthState {
   authUser: User | null;
   dbUser: UserDB | null;
+  creditData: CreditDB | null;  // Add creditData to store the actual credit details
   isLoading: boolean;
   otpVerifiedTimestamp: number | null;
 }
@@ -24,7 +24,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const loadAuthState = (): AuthState => {
   const storedState = localStorage.getItem('authState');
-  console.log('Loading auth state from localStorage:', storedState);
   if (storedState) {
     const parsedState = JSON.parse(storedState);
     return {
@@ -36,6 +35,7 @@ const loadAuthState = (): AuthState => {
   return {
     authUser: null,
     dbUser: null,
+    creditData: null, // Default to null when loading
     isLoading: true,
     otpVerifiedTimestamp: null,
   };
@@ -46,7 +46,6 @@ const saveAuthState = (state: AuthState) => {
     ...state,
     authUser: state.authUser ? { uid: state.authUser.uid } : null,
   };
-  console.log('Saving auth state to localStorage:', stateToSave);
   localStorage.setItem('authState', JSON.stringify(stateToSave));
 };
 
@@ -54,47 +53,53 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [authState, setAuthState] = useState<AuthState>(loadAuthState);
 
   useEffect(() => {
-    console.log('AuthProvider mounted');
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      console.log('Auth state changed, user:', firebaseUser?.uid);
       if (firebaseUser) {
         try {
           const userResponse = await UserApi.getUserByUid(firebaseUser.uid);
-          console.log('User data fetched:', userResponse.data);
-          setAuthState(prev => {
+          let creditData: CreditDB | null = null;
+
+          // Check if the user has an ongoing credit and store the credit data
+          try {
+            const creditResponse = await CreditApi.getActiveCredit(firebaseUser.uid);
+            if (creditResponse) {
+              creditData = creditResponse.data;
+            }
+          } catch (creditError) {
+            console.error('Error checking ongoing credit:', creditError);
+          }
+
+          setAuthState((prev) => {
             const newState = {
               ...prev,
               authUser: firebaseUser,
               dbUser: userResponse.data,
+              creditData, // Update the state with the credit data
               isLoading: false,
-              // Preserve the existing OTP verification status
               otpVerifiedTimestamp: prev.otpVerifiedTimestamp,
             };
-            console.log('Updating auth state:', newState);
             saveAuthState(newState);
             return newState;
           });
         } catch (error) {
-          console.error('Error fetching user data:', error);
-          setAuthState(prev => {
+          setAuthState((prev) => {
             const newState = {
               ...prev,
               authUser: firebaseUser,
               dbUser: null,
+              creditData: null,
               isLoading: false,
-              // Preserve the existing OTP verification status
               otpVerifiedTimestamp: prev.otpVerifiedTimestamp,
             };
-            console.log('Updating auth state (error case):', newState);
             saveAuthState(newState);
             return newState;
           });
         }
       } else {
-        console.log('No user, clearing auth state');
         const newState = {
           authUser: null,
           dbUser: null,
+          creditData: null,
           isLoading: false,
           otpVerifiedTimestamp: null,
         };
@@ -106,17 +111,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, []);
 
+  // Function to set OTP verified timestamp
+  const setOtpVerifiedTimestamp = (timestamp: number | null) => {
+    setAuthState((prev) => {
+      const newState = { ...prev, otpVerifiedTimestamp: timestamp };
+      saveAuthState(newState);
+      return newState;
+    });
+  };
+
+  // Function to clear the auth state
+  const clearAuthState = () => {
+    const newState = {
+      authUser: null,
+      dbUser: null,
+      creditData: null,
+      isLoading: false,
+      otpVerifiedTimestamp: null,
+    };
+    setAuthState(newState);
+    saveAuthState(newState);
+  };
+
+  // Function to refresh the DB user information and credit data
   const refreshDbUser = async () => {
     if (authState.authUser) {
       try {
         const userResponse = await UserApi.getUserByUid(authState.authUser.uid);
-        console.log('Refreshed user data:', userResponse.data);
+
+        let creditData: CreditDB | null = null;
+        // Re-check and update credit data
+        try {
+          const creditResponse = await CreditApi.getActiveCredit(authState.authUser.uid);
+          creditData = creditResponse.data;
+        } catch (creditError) {
+          console.error('Error checking ongoing credit during refresh:', creditError);
+        }
+
         setAuthState((prevState) => {
           const newState = {
             ...prevState,
             dbUser: userResponse.data,
+            creditData, // Update the state with the credit data
           };
-          console.log('Updating auth state after refreshing user:', newState);
           saveAuthState(newState);
           return newState;
         });
@@ -126,36 +163,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const setOtpVerifiedTimestamp = (timestamp: number | null) => {
-    console.log('Setting OTP verified timestamp:', timestamp);
-    setAuthState((prev) => {
-      const newState = { ...prev, otpVerifiedTimestamp: timestamp };
-      console.log('Updating auth state with new OTP timestamp:', newState);
-      saveAuthState(newState);
-      return newState;
-    });
-  };
-
-  const clearAuthState = () => {
-    console.log('Clearing auth state');
-    const newState = {
-      authUser: null,
-      dbUser: null,
-      isLoading: false,
-      otpVerifiedTimestamp: null,
-    };
-    setAuthState(newState);
-    saveAuthState(newState);
-  };
-
-  const isOtpVerified = authState.otpVerifiedTimestamp !== null && Date.now() < authState.otpVerifiedTimestamp;
-
   const contextValue: AuthContextType = {
     ...authState,
     setOtpVerifiedTimestamp,
     clearAuthState,
     refreshDbUser,
-    isOtpVerified,
+    isOtpVerified: authState.otpVerifiedTimestamp !== null && Date.now() < authState.otpVerifiedTimestamp,
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

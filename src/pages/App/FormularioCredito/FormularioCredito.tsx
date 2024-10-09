@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import Calculator from './Calculadora';
 import ConfirmarDatos from './ConfirmarDatos';
 import VistaContrato from './VistaContrato';
@@ -7,7 +6,10 @@ import FirmaOTP from './FirmaOTP';
 import ConfirmarCredito from './ConfirmacionCredito';
 import BankAccountForm from './BankAccountForm';
 
-import { CreditRequestData, UserDB, BankAccountData } from 'types/types';
+import { CreditData, BankAccountRequest } from 'types/types';
+import { useAuth } from '../../../hooks/useAuth';
+import { useAuthHandlers } from '../../../hooks/useAuthHandlers';
+import { useCreditHandlers } from '../../../hooks/useAppHandlers';
 
 interface Step {
   title: string;
@@ -62,19 +64,9 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ steps, currentStep }) => (
   </div>
 );
 
-interface FormularioCreditoProps {
-  handleSubmit: (formData: CreditRequestData) => Promise<void>;
-  fetchUserAccount: () => Promise<UserDB | null>;
-  addBankAccount: (account: BankAccountData) => Promise<void>;
-}
-
-const FormularioCredito: React.FC<FormularioCreditoProps> = ({ 
-  handleSubmit, 
-  fetchUserAccount,
-  addBankAccount 
-}) => {
+const FormularioCredito: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [formData, setFormData] = useState<CreditRequestData>({
+  const [formData, setFormData] = useState<CreditData>({
     montoSolicitado: 0,
     interesCorriente: 0,
     administracion: 0,
@@ -83,24 +75,10 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
     fechaCuota: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userAccount, setUserAccount] = useState<UserDB | null>(null);
-  const [isLoadingAccount, setIsLoadingAccount] = useState(true);
 
-  useEffect(() => {
-    const loadUserAccount = async () => {
-      setIsLoadingAccount(true);
-      try {
-        const account = await fetchUserAccount();
-        setUserAccount(account);
-      } catch (error) {
-        console.error('Error fetching user account:', error);
-      } finally {
-        setIsLoadingAccount(false);
-      }
-    };
-
-    loadUserAccount();
-  }, [fetchUserAccount]);
+  const { dbUser, isLoading } = useAuth();
+  const authHandlers = useAuthHandlers();
+  const creditHandlers = useCreditHandlers();
 
   const handleNext = () => setCurrentStep((prev) => prev + 1);
   const handlePrev = () => setCurrentStep((prev) => prev - 1);
@@ -108,27 +86,20 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
   const onSubmit = async (otpCode: string) => {
     setIsSubmitting(true);
     try {
-
-      const updatedFormData = {
-        ...formData,
-        otpCode,
-        otpTimestamp: Date.now(),
-      };
-      await handleSubmit(updatedFormData);
-      handleNext(); // Move to the confirmation step after successful submission
+      await creditHandlers.requestCredit(formData, otpCode);
+      handleNext();
     } catch (error) {
-      console.error('Error submitting credit request:', error);
+      console.error('Hubo un error al procesar tu peticion.', error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const onAddBankAccount = async (accountData: BankAccountData) => {
+  const onAddBankAccount = async (accountData: BankAccountRequest) => {
     setIsSubmitting(true);
 
     try {
-      await addBankAccount(accountData);
-      setUserAccount(prevAccount => prevAccount ? {...prevAccount, accountInformation: accountData} : null);
+      await authHandlers.handleUpdateBankInformation(accountData);
       handleNext();
     } catch (error) {
       console.error('Error adding bank account:', error);
@@ -138,15 +109,14 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
   };
 
   const steps = [
-    { title: 'Calcular' },
-    ...(userAccount?.accountInformation ? [] : [{ title: 'Cuenta bancaria' }]),
+    { title: 'Calcular' }, ...(dbUser?.accountInformation ? [] : [{ title: 'Cuenta bancaria' }]),
     { title: 'Confirmar datos' },
     { title: 'Revisar contrato' },
     { title: 'Verificar OTP' },
     { title: 'Confirmar' },
   ];
 
-  if (isLoadingAccount) {
+  if (isLoading) {
     return <div className="flex justify-center items-center h-screen">
       <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-principal"></div>
     </div>;
@@ -160,23 +130,23 @@ const FormularioCredito: React.FC<FormularioCreditoProps> = ({
           <Calculator handleNext={handleNext} setFormData={setFormData} />
         }
 
-        {currentStep === 2 && !userAccount?.accountInformation && (
+        {currentStep === 2 && !dbUser?.accountInformation && (
           <BankAccountForm onSubmit={onAddBankAccount} onStepBack={handlePrev} />
         )}
-        {((currentStep === 2 && userAccount?.accountInformation) || (currentStep === 3 && !userAccount?.accountInformation)) && (
+        {((currentStep === 2 && dbUser?.accountInformation) || (currentStep === 3 && !dbUser?.accountInformation)) && (
           <ConfirmarDatos handlePrev={handlePrev} handleNext={handleNext} formData={formData} />
         )}
-        {((currentStep === 3 && userAccount?.accountInformation) || (currentStep === 4 && !userAccount?.accountInformation)) && (
+        {((currentStep === 3 && dbUser?.accountInformation) || (currentStep === 4 && !dbUser?.accountInformation)) && (
           <VistaContrato handlePrev={handlePrev} handleNext={handleNext} />
         )}
-        {((currentStep === 4 && userAccount?.accountInformation) || (currentStep === 5 && !userAccount?.accountInformation)) && (
+        {((currentStep === 4 && dbUser?.accountInformation) || (currentStep === 5 && !dbUser?.accountInformation)) && (
           <FirmaOTP 
             handlePrev={handlePrev}
             handleNext={onSubmit}
             isSubmitting={isSubmitting}
           />
         )}
-        {((currentStep === 5 && userAccount?.accountInformation) || (currentStep === 6 && !userAccount?.accountInformation)) && (
+        {((currentStep === 5 && dbUser?.accountInformation) || (currentStep === 6 && !dbUser?.accountInformation)) && (
           <ConfirmarCredito />
         )}
       </div>

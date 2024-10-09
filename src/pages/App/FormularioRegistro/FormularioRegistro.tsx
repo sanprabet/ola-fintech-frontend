@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import DatosPersonales from './DatosPersonales';
 import DatosProfesionales from './DatosProfesionales';
 import VerificationStep from './VerificarDatos';
-import { UserInformationData } from 'types/types';
+import { UserInformationRequest } from 'types/types';
 
-import { useAppHandlers } from '../../../hooks/useAppHandlers';
+import { useCreditHandlers } from '../../../hooks/useAppHandlers';
 import { useAuthHandlers } from '../../../hooks/useAuthHandlers';
 
 
@@ -35,7 +35,7 @@ const ProgressBar: React.FC<{ steps: { title: string }[]; currentStep: number }>
 
 const FormularioRegistro: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [formData, setFormData] = useState<UserInformationData>({
+  const [formData, setFormData] = useState<UserInformationRequest>({
     personalInfo: {
       primerNombre: "",
       segundoNombre: "",
@@ -61,7 +61,7 @@ const FormularioRegistro: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const appHandlers = useAppHandlers();
+  const creditHandlers = useCreditHandlers();
   const authHandlers = useAuthHandlers();
 
   const handleNext = () => setCurrentStep((prev) => Math.min(prev + 1, 3));
@@ -72,7 +72,7 @@ const FormularioRegistro: React.FC = () => {
     setSubmitError(null);
 
     try {
-      await appHandlers.handleFormularioRegistro(formData);
+      await creditHandlers.handleFormularioRegistro(formData);
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitError('An error occurred while submitting the form. Please try again.');

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { BankAccountData } from 'types/types';
+import { BankAccountRequest } from 'types/types';
 
 interface BankAccountFormProps {
-  account?: BankAccountData | null;
-  onSubmit: (account: BankAccountData) => void;
+  account?: BankAccountRequest | null;
+  onSubmit: (account: BankAccountRequest) => void;
   onCancel?: () => void;
   onStepBack: () => void;
 }
 
 const BankAccountForm: React.FC<BankAccountFormProps> = ({ account, onSubmit, onCancel, onStepBack }) => {
-  const [formData, setFormData] = useState<BankAccountData>({
+  const [formData, setFormData] = useState<BankAccountRequest>({
     accountType: '',
     accountNumber: '',
     accountInstitution: '',

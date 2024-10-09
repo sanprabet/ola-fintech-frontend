@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { PersonalInfo, ProfessionalInfo, UserInformationData } from '../../../types/types';
+import { PersonalInfo, ProfessionalInfo, UserInformationRequest } from '../../../types/types';
 
 interface DatosProfesionalesProps {
   handleNext: () => void;
   handlePrevious: () => void;
-  formData: UserInformationData;
-  setFormData: React.Dispatch<React.SetStateAction<UserInformationData>>;
+  formData: UserInformationRequest;
+  setFormData: React.Dispatch<React.SetStateAction<UserInformationRequest>>;
 }
 
 interface ValidationErrors {
@@ -21,7 +21,7 @@ function DatosProfesionales({ handleNext, handlePrevious, formData, setFormData 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData: UserInformationData) => ({
+    setFormData((prevData: UserInformationRequest) => ({
       ...prevData,
       professionalInfo: {
         ...prevData.professionalInfo,

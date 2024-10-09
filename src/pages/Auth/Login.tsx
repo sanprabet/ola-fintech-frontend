@@ -9,7 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handlers = useAuthHandlers();
+  const auth = useAuthHandlers();
 
   const isValidInput = documentNumber.length >= 8 && documentNumber.length <= 13 && /^\d+$/.test(documentNumber) && password.length >= 8;
 
@@ -29,7 +29,7 @@ function Login() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValidInput) {
-      handlers.loginAccount({ documentNumber, password });
+      auth.loginAccount({ documentNumber, password });
     }
   };
 

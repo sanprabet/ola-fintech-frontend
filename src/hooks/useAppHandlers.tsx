@@ -1,19 +1,36 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationContext } from '../hooks/useNotification';
+
 import { UserApi } from '../services/user';
+import { CreditApi } from '../services/credit';
+
 import useAuth from './useAuth';
+import { useAuthHandlers } from './useAuthHandlers';
 
 import {
-  UserInformationData,
-  CreditRequestData,
-  BankAccountData,
-  UserDB
-} from 'types/types';
+  UserInformationRequest,
+  CreditData,
+  UserDB,
+  UserAllData
+} from 'types/types'; // Import the required types
 
-export const useAppHandlers = () => {
+// Define return types for the handler functions
+interface CreditHandlers {
+  handleFormularioRegistro: (data: UserInformationRequest) => Promise<void>;
+  requestCredit: (data: CreditData, codeOtp: string) => Promise<void>;
+  fetchUsersAdmin: (    
+    currentPage: number, 
+    usersPerPage: number, 
+    searchTerm: string, 
+    showPending: boolean, 
+    showActive: boolean
+  ) => Promise<{ users: UserAllData[], total: number } | void>;
+}
+
+export const useCreditHandlers = (): CreditHandlers => {
   const navigate = useNavigate();
   const { dbUser, refreshDbUser } = useAuth();
+  const handlers = useAuthHandlers();
 
   const { showNotification } = useNotificationContext();
 
@@ -36,7 +53,7 @@ export const useAppHandlers = () => {
     }
   };
 
-  const handleFormularioRegistro = async (data: UserInformationData) => {
+  const handleFormularioRegistro = async (data: UserInformationRequest) => {
     await handleAsyncOperation(async () => {
       if (!dbUser || !dbUser.uid) {
         throw new Error("User not authenticated");
@@ -47,26 +64,44 @@ export const useAppHandlers = () => {
     }, 'Registro completado exitosamente');
   };
 
-  const handleFormularioCredito = async (data: CreditRequestData) => {
-    console.log(data)
+  const requestCredit = async (data: CreditData, codeOtp: string) => {
     await handleAsyncOperation(async () => {
+      if (!dbUser || !dbUser.uid) throw new Error("User not authenticated");
+
+      await handlers.verifyOtp(codeOtp);
+      const response = await CreditApi.sendCreditForm(data, codeOtp, dbUser?.uid);
+      if (!response.success) {
+        throw new Error(response.message || 'Hubo un problema al realizar tu peticion. Intenta más tarde.');
+      }
+
+      await refreshDbUser();
     }, 'Credito Solicitado Exitosamente');
   };
 
-  const fetchAccount = async (): Promise<UserDB> => { 
+  const fetchUsersAdmin = async (
+    currentPage: number, 
+    usersPerPage: number, 
+    searchTerm: string, 
+    showPending: boolean, 
+    showActive: boolean
+  ): Promise<{ users: UserAllData[], total: number } | void> => {
     try {
-      if (!dbUser || !dbUser.email) throw new Error("Esta accion no esta permitida. Usuario no autenticado")
-      return dbUser
-
+      if (!dbUser || !dbUser.admin) {
+        throw new Error("Esta accion no esta permitida. Usuario no autenticado como admin");
+      }
+  
+      const response = await UserApi.getUsersAdmin(currentPage, usersPerPage, searchTerm, showPending, showActive);
+      return response.data;
     } catch (error) {
       handleError(error);
       throw error;
     }
   };
 
+
   return {
     handleFormularioRegistro,
-    handleFormularioCredito,
-    fetchAccount,
+    requestCredit,
+    fetchUsersAdmin,
   };
 };

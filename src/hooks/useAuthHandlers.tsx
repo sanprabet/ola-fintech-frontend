@@ -3,7 +3,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  confirmPasswordReset,
   AuthError,
 } from 'firebase/auth';
 
@@ -13,14 +12,14 @@ import { useAuth } from '../hooks/useAuth';
 import { useNotificationContext } from '../hooks/useNotification';
 
 import {
-  UserRegisterForm,
-  UserRegisterData,
+  UserRegisterAuth,
+  UserDataRequest,
   LoginData,
   AdminLoginData,
   PersonalInfo,
   ProfessionalInfo,
-  BankAccountData,
-  UserInformationData
+  BankAccountRequest,
+  UserInformationRequest
 } from 'types/types';
 
 const OTP_EXPIRATION_TIME = 60 * 60 * 1000;
@@ -65,11 +64,11 @@ export const useAuthHandlers = () => {
     }
   };
   
-  const createAccount = async (data: UserRegisterForm) => {
+  const createAccount = async (data: UserRegisterAuth) => {
     console.log('Creating account', { email: data.email });
     await handleAsyncOperation(async () => {
       const { email, password, documentType, documentNumber, phoneNumber } = data;
-      let userRegisterData: UserRegisterData = { documentType, documentNumber, email, phoneNumber };
+      let userRegisterData: UserDataRequest = { documentType, documentNumber, email, phoneNumber };
 
       const isAccountAlreadyRegistered = await UserApi.checkCredentials(userRegisterData);
       if (!isAccountAlreadyRegistered.success) {
@@ -90,7 +89,6 @@ export const useAuthHandlers = () => {
   };
 
   const loginAccount = async (data: LoginData) => {
-    console.log('Logging in', { documentNumber: data.documentNumber });
     await handleAsyncOperation(async () => {
       const { documentNumber, password } = data;
 
@@ -100,14 +98,14 @@ export const useAuthHandlers = () => {
       }
 
       await signInWithEmailAndPassword(auth, emailRequest.data.email, password);
-      
-      console.log('Login successful, navigating to OTP page');
+
+      await refreshDbUser();
+
       navigate("/auth/codigo");
     }, 'Inicio de sesión exitoso.');
   };
 
   const loginAdminAccount = async (data: AdminLoginData) => {
-    console.log('Logging in admin', { email: data.email });
     await handleAsyncOperation(async () => {
       const { email, password } = data;
       await signInWithEmailAndPassword(auth, email, password);
@@ -144,7 +142,7 @@ export const useAuthHandlers = () => {
     await handleAsyncOperation(async () => {
       if (!authUser || !dbUser){
         await logout();
-        throw new Error("Necesitas una sesion de admin. Ve a la pestaña de ingreso.");
+        throw new Error("Necesitas una sesion activa. Ve a la pestaña de ingreso.");
       }
 
       const response = await UserApi.verifyOtp(dbUser.uid, code);
@@ -183,7 +181,7 @@ export const useAuthHandlers = () => {
         throw new Error("Necesitas una sesion de admin. Ve a la pestaña de ingreso.");
       }
 
-      const data: UserInformationData = {
+      const data: UserInformationRequest = {
         personalInfo,
         professionalInfo
       }
@@ -198,8 +196,8 @@ export const useAuthHandlers = () => {
     }, 'Tu informacion ha sido actualizada.');
   };
 
-  const handleUpdateBankInformation = async (account: BankAccountData) => {
-    console.log(account);
+  const handleUpdateBankInformation = async (bankAccount: BankAccountRequest) => {
+    console.log(bankAccount);
     await handleAsyncOperation(async () => {
 
       if (!authUser || !dbUser){
@@ -207,7 +205,7 @@ export const useAuthHandlers = () => {
         throw new Error("Necesitas una sesion de admin. Ve a la pestaña de ingreso.");
       }
 
-      const response = await UserApi.updateBankAccount(dbUser.uid, account)
+      const response = await UserApi.updateBankAccount(dbUser.uid, bankAccount)
       if (!response.success) {
         throw new Error(response.message || 'Hubo un problema al actualizar tu cuenta. Intenta más tarde.');
       }
@@ -215,6 +213,13 @@ export const useAuthHandlers = () => {
       await refreshDbUser();
 
     }, 'Tu cuenta ha sido actualizada.');
+  };
+
+  const sendResetEmail = async (email: string) => {
+    await handleAsyncOperation(async () => {
+      await sendPasswordResetEmail(auth, email);
+      navigate('/auth/ingreso')
+    }, 'Tu correo para cambiar de contraseña fue enviado correctamente.');
   };
 
   return {
@@ -225,6 +230,7 @@ export const useAuthHandlers = () => {
     sendOtp,
     loginAdminAccount,
     handleUpdateBankInformation,
-    handleUpdateUserInformation
+    handleUpdateUserInformation,
+    sendResetEmail
   };
 };

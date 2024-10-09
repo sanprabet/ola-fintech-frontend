@@ -13,10 +13,10 @@ const LoadingSpinner: React.FC = () => (
 );
 
 const useProtectedRouteLogic = () => {
-  const { authUser, dbUser, isOtpVerified, isLoading, setOtpVerifiedTimestamp } = useAuth();
+  const { authUser, dbUser, isOtpVerified, isLoading, creditData } = useAuth();
   const location = useLocation();
 
-  return { authUser, dbUser, isOtpVerified, location, isLoading };
+  return { authUser, dbUser, isOtpVerified, location, isLoading, creditData };
 };
 
 export const AppProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
@@ -43,7 +43,7 @@ export const AdminProtectedRoute: React.FC<ProtectedRouteProps> = ({ children })
 };
 
 export const LoginProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { authUser, dbUser, isOtpVerified, location, isLoading } = useProtectedRouteLogic();
+  const { authUser, dbUser, isOtpVerified, location, isLoading,  } = useProtectedRouteLogic();
 
   if (isLoading) return <LoadingSpinner />;
   if (authUser && dbUser && isOtpVerified) {

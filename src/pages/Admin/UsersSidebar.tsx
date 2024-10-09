@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { X, User, CreditCard, MessageSquare, Copy, ChevronDown, ChevronUp, CheckCircle, XCircle, DollarSign, Calendar, Send } from 'lucide-react';
+import {
+  X, User, CreditCard, MessageSquare, Copy, ChevronDown, ChevronUp, CheckCircle, XCircle, DollarSign, Calendar, Send
+} from 'lucide-react';
 import { UserAllData, CreditDB, MessageDB } from 'types/types';
 
 interface UserSidebarProps {
@@ -14,7 +16,6 @@ interface UserSidebarProps {
 const CopyableField: React.FC<{ label: string; value: string }> = ({ label, value }) => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    // You might want to add a toast notification here
   };
 
   const capitalizeLabel = (str: string) => {
@@ -26,8 +27,8 @@ const CopyableField: React.FC<{ label: string; value: string }> = ({ label, valu
       <span className="font-medium mb-1 sm:mb-0">{capitalizeLabel(label)}:</span>
       <div className="flex items-center">
         <span className="mr-2 break-all">{value}</span>
-        <Copy 
-          size={16} 
+        <Copy
+          size={16}
           className="cursor-pointer text-gray-500 hover:text-gray-700 flex-shrink-0"
           onClick={() => copyToClipboard(value)}
         />
@@ -55,8 +56,8 @@ const ExpandableSection: React.FC<{ title: string; icon: React.ReactNode; childr
 
 const UserInfoComponent: React.FC<{ user: UserAllData }> = ({ user }) => (
   <ExpandableSection title="Información del Usuario" icon={<User size={20} />}>
-    {Object.entries(user).map(([key, value]) => {
-      if (key !== 'creditHistory' && key !== 'messageHistory' && key !== 'personalInfo' && key !== 'professionalInfo') {
+    {Object.entries(user.userData).map(([key, value]) => {
+      if (key !== 'creditHistory' && key !== 'messageHistory') {
         let displayValue = typeof value === 'string' ? value : JSON.stringify(value);
         return <CopyableField key={key} label={key} value={displayValue} />;
       }
@@ -65,7 +66,7 @@ const UserInfoComponent: React.FC<{ user: UserAllData }> = ({ user }) => (
   </ExpandableSection>
 );
 
-const PersonalInfoComponent: React.FC<{ personalInfo: UserAllData['personalInfo'] }> = ({ personalInfo }) => (
+const PersonalInfoComponent: React.FC<{ personalInfo: UserAllData['userData']['personalInfo'] }> = ({ personalInfo }) => (
   <ExpandableSection title="Información Personal" icon={<User size={20} />}>
     {Object.entries(personalInfo || {}).map(([key, value]) => (
       <CopyableField key={key} label={key} value={String(value)} />
@@ -73,7 +74,7 @@ const PersonalInfoComponent: React.FC<{ personalInfo: UserAllData['personalInfo'
   </ExpandableSection>
 );
 
-const ProfessionalInfoComponent: React.FC<{ professionalInfo: UserAllData['professionalInfo'] }> = ({ professionalInfo }) => (
+const ProfessionalInfoComponent: React.FC<{ professionalInfo: UserAllData['userData']['professionalInfo'] }> = ({ professionalInfo }) => (
   <ExpandableSection title="Información Profesional" icon={<User size={20} />}>
     {Object.entries(professionalInfo || {}).map(([key, value]) => (
       <CopyableField key={key} label={key} value={String(value)} />
@@ -84,13 +85,13 @@ const ProfessionalInfoComponent: React.FC<{ professionalInfo: UserAllData['profe
 const StatusBadge: React.FC<{ status: string; className?: string }> = ({ status, className }) => {
   const baseClasses = "px-2 py-1 rounded-full text-xs font-semibold";
   const statusClasses = {
-    pendiente: "bg-yellow-100 text-yellow-800",
-    activo: "bg-green-100 text-green-800",
-    pagado: "bg-blue-100 text-blue-800",
-    rechazado: "bg-red-100 text-red-800",
-    programado: "bg-purple-100 text-purple-800",
-    enviando: "bg-indigo-100 text-indigo-800",
-    enviado: "bg-teal-100 text-teal-800",
+    pending: "bg-yellow-100 text-yellow-800",
+    active: "bg-green-100 text-green-800",
+    paid: "bg-blue-100 text-blue-800",
+    rejected: "bg-red-100 text-red-800",
+    scheduled: "bg-purple-100 text-purple-800",
+    sending: "bg-indigo-100 text-indigo-800",
+    sent: "bg-teal-100 text-teal-800",
     error: "bg-red-100 text-red-800",
   };
 
@@ -105,8 +106,8 @@ const translateStatus = (status: string): string => {
   const statusTranslations: { [key: string]: string } = {
     'pending': 'pendiente',
     'active': 'activo',
-    'payed': 'pagado',
-    'denied': 'rechazado',
+    'paid': 'pagado',
+    'rejected': 'rechazado',
     'scheduled': 'programado',
     'sending': 'enviando',
     'sent': 'enviado',
@@ -142,19 +143,19 @@ const CreditHistoryTable: React.FC<{
               <td className="px-6 py-4 whitespace-nowrap">
                 <StatusBadge status={translateStatus(credit.status)} />
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">${credit.data.montoSolicitado.toLocaleString()}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{new Date(credit.data.fechaCuota).toLocaleDateString()}</td>
+              <td className="px-6 py-4 whitespace-nowrap">${credit.montoSolicitado.toLocaleString()}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{new Date(credit.fechaCuota).toLocaleDateString()}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {credit.status === 'pending' && (
                   <>
                     <button
-                      onClick={() => onAcceptCredit(credit.userId)}
+                      onClick={() => onAcceptCredit(credit._id)}
                       className="mr-2 p-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-300"
                     >
                       <CheckCircle size={16} />
                     </button>
                     <button
-                      onClick={() => onRejectCredit(credit.userId)}
+                      onClick={() => onRejectCredit(credit._id)}
                       className="p-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-300"
                     >
                       <XCircle size={16} />
@@ -163,7 +164,7 @@ const CreditHistoryTable: React.FC<{
                 )}
                 {credit.status === 'active' && (
                   <button
-                    onClick={() => onMarkCreditPaid(credit.userId)}
+                    onClick={() => onMarkCreditPaid(credit._id)}
                     className="p-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300"
                   >
                     <DollarSign size={16} />
@@ -205,12 +206,11 @@ const MessageHistoryTable: React.FC<{
               <td className="px-6 py-4 whitespace-nowrap">
                 <StatusBadge status={translateStatus(message.status)} />
               </td>
-              <td className="px-6 py-4">{message.message}</td>
-              <td className="px-6 py-4">{message.error || 'N/A'}</td>
+              <td className="px-6 py-4">{message.sent?.body}</td>
               <td className="px-6 py-4 whitespace-nowrap">
                 {message.status === 'scheduled' && (
                   <button
-                    onClick={() => onCancelMessage(message.userId)}
+                    onClick={() => onCancelMessage(message._id)}
                     className="p-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-300"
                   >
                     <Calendar size={16} />
@@ -233,14 +233,12 @@ const MessageScheduler: React.FC = () => {
 
   const handleSchedule = () => {
     console.log('Programando mensaje:', message, 'para la fecha:', scheduleDate);
-    // Reset fields after mock scheduling
     setMessage('');
     setScheduleDate('');
   };
 
   const handleSendImmediately = () => {
     console.log('Enviando mensaje inmediatamente:', message);
-    // Reset message field after mock sending
     setMessage('');
   };
 
@@ -285,13 +283,13 @@ const MessageScheduler: React.FC = () => {
   );
 };
 
-const UserSidebar: React.FC<UserSidebarProps> = ({ 
-  user, 
-  onClose, 
-  onAcceptCredit, 
-  onRejectCredit, 
-  onMarkCreditPaid, 
-  onCancelMessage 
+const UserSidebar: React.FC<UserSidebarProps> = ({
+  user,
+  onClose,
+  onAcceptCredit,
+  onRejectCredit,
+  onMarkCreditPaid,
+  onCancelMessage,
 }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-end">
@@ -304,15 +302,15 @@ const UserSidebar: React.FC<UserSidebarProps> = ({
             </button>
           </div>
           <UserInfoComponent user={user} />
-          <PersonalInfoComponent personalInfo={user.personalInfo} />
-          <ProfessionalInfoComponent professionalInfo={user.professionalInfo} />
-          <CreditHistoryTable 
-            creditHistory={user.creditHistory} 
+          <PersonalInfoComponent personalInfo={user.userData.personalInfo} />
+          <ProfessionalInfoComponent professionalInfo={user.userData.professionalInfo} />
+          <CreditHistoryTable
+            creditHistory={user.creditHistory}
             onAcceptCredit={onAcceptCredit}
             onRejectCredit={onRejectCredit}
             onMarkCreditPaid={onMarkCreditPaid}
           />
-          <MessageHistoryTable 
+          <MessageHistoryTable
             messageHistory={user.messageHistory}
             onCancelMessage={onCancelMessage}
           />
